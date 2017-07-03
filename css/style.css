@@ -1,0 +1,108 @@
+body {
+	background-color: #0e0e0e;
+	color: white;
+}
+
+
+
+.fretboard {
+    background-color: black;
+    background-image: url(../images/fretboard_bg.png);
+    background-size: 1000px 300px;
+    background-repeat: no-repeat;
+    background-position: 100px;
+    width: 1100px;
+}
+
+.string {
+	height: 50px;
+	overflow: hidden;
+}
+
+.fret {
+	height: 46px;
+	float: left;
+}
+
+.note {
+	/*TODO make this and everything dynamic */
+	width: 40px;
+	height: 40px;
+
+	margin-top: 4px;
+	margin-left: auto;
+	margin-right: auto;
+
+	background-color: #257b47;
+
+	border: 2px;
+	border-color: #d877a2;
+	border-style: solid;
+	border-radius: 50%;
+
+	text-align: center;
+	line-height: 44px;
+	visibility: hidden;
+}
+
+.openInKey {
+	background-color: #257b47;
+}
+
+.highlighted > .note {
+	/*background-color: #1ce4ab;*/
+	visibility: visible;
+}
+
+.open_string {
+	width: 9%;
+	float: left;
+}
+
+.fret_0 {
+	width: 9.8%;
+}
+
+.fret_1 {
+	width: 9.4%;
+}
+
+.fret_2 {
+	width: 9%;
+}
+
+.fret_3 {
+	width: 8.5%;
+}
+
+.fret_4 {
+	width: 8%;
+}
+
+.fret_5 {
+	width: 7.3%;
+}
+
+.fret_6 {
+	width: 7%;
+}
+
+.fret_7 {
+	width: 6.5%;
+}
+
+.fret_8 {
+	width: 6.3%;
+}
+
+.fret_9 {
+	width: 5.8%;
+}
+
+.fret_10 {
+	width: 5.4%;
+}
+
+.fret_11 {
+	width: 5%;
+}

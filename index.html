@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+	<link rel="stylesheet" href ="css/style.css">
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<br/><br/>
+	<div class="fretboard">
+		<div ng-repeat="string in fretboard.strings" class="string">
+			<div class="open_string" ng-class="{'openInKey' : fretboard.openInKey[$index]}">
+				<select ng-model="strings[5-$index]" ng-options="note as note for note in notes" ng-change="changeTuning()"></select>
+			</div>
+			<div ng-repeat="fret in string.frets" class="fret fret_{{$index}}" ng-class="{'highlighted' : fret.highlight}">
+				<div class="note">
+				{{fret.note}}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br/>
+
+
+	<select ng-model="key" ng-options="note as note for note in notes">
+		</select>
+	<select ng-model="majorMinorState" ng-options="option for option in majorMinorArray">
+		</select>
+  	 <button ng-click="highlightKey(key)">Change Key</button>
+
+	<!--Import Scripts-->
+	<script src="js/angular.min.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/GuitarService.js"></script>
+	<script src="js/MainCtrl.js"></script>
+</body>
+
+</html>

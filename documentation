@@ -1,0 +1,78 @@
+==================
+=== Guitar App ===
+==================
+
+---------
+- To Do -
+---------
+
+[X] Tune after any note change
+[X] Dropdown list for Key
+[X] Make the note divs into circles
+[X] Make a container div for all the frets
+[X] Give the fret divs a percentage-based width
+[X] Assign specific classes to each column of frets
+[X] Draw strings on the guitar fretboard
+[X] Use as background for fretboard div
+[X] Size the frets accordingly
+[X] Put the note drop downs in line with the frets
+[X] Default to standard tuning, key of C
+[X] Only show notes in the key
+[X] Default highlight key dropdown to C
+[X] Flip order of open strings
+[X] Can't tune to sharps/flats
+[X] Separate note bubbles from fret div
+[X] Get a good consistent sizing for the bubbles
+[X] Add a dropdown for major / minor
+[X] Add functionality for major / minor
+[X] Add 'highlighted' to the open note select box div
+[ ] Replace the select boxes with divs that contain text for the note
+[ ] Add a click function for those divs
+[ ] Show a hidden div that contains all the notes to the left of the open strings
+[ ] Fire off a function when you click that changes the tuning for that string
+[ ] Add "show all notes" checkbox
+[ ] Implement functionality for show all notes
+[ ] Start using Git
+// All shown (key) notes should be 'highlighted' by default
+// Show all notes should then just show grey notes
+
+
+/*
+[ ] Design the app in Photoshop
+[ ] Change width percentages to match design
+[ ] Pull out the open strings and make those bubbles bigger
+[ ] Add a "Notes in Key" section to the left / right of the fretboard
+[ ] Add a background behind the note divs
+[ ] Style everything
+*/
+---------------------------
+- Functional Requirements -
+---------------------------
+
+(X) Guitar fretboard that displays notes
+(X) Ability to tune that guitar
+(X) Ability to select a key to display on screen
+~
+( ) Ability to select notes and ring a chord
+
+-------------------
+- UX Requirements -
+-------------------
+( ) Click note tuning, get a circle of notes to choose from
+
+--------------
+- Data model -
+--------------
+
+Fretboard: String[6]
+String: Fret[12]
+Fret: { note: string, highlight: bool }
+
+// Eventually make an angular mapping thing for the note names / indices
+
+Create a method that takes in a note, converts it to noteindex, and then maths it to get the major key
+The method that will invoke that will then assign that array to a variable in the scope
+Then call the tune -> buildstring method
+Modify buildstring to always check the key to see if anything should be highlighted
+
+!- Get some sort of Version Control
