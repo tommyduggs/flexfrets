@@ -26,13 +26,14 @@
 [X] Add a dropdown for major / minor
 [X] Add functionality for major / minor
 [X] Add 'highlighted' to the open note select box div
-[ ] Replace the select boxes with divs that contain text for the note
-[ ] Add a click function for those divs
+[X] Start using Git
+[X] Replace the select boxes with divs that contain text for the note
+[X] Add a click function for those divs
 [ ] Show a hidden div that contains all the notes to the left of the open strings
 [ ] Fire off a function when you click that changes the tuning for that string
 [ ] Add "show all notes" checkbox
 [ ] Implement functionality for show all notes
-[ ] Start using Git
+
 // All shown (key) notes should be 'highlighted' by default
 // Show all notes should then just show grey notes
 

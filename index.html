@@ -10,8 +10,10 @@
 	<br/><br/>
 	<div class="fretboard">
 		<div ng-repeat="string in fretboard.strings" class="string">
-			<div class="open_string" ng-class="{'openInKey' : fretboard.openInKey[$index]}">
-				<select ng-model="strings[5-$index]" ng-options="note as note for note in notes" ng-change="changeTuning()"></select>
+			<div class="open_string" ng-click="showTuner()">
+				<div class="open_note" ng-class="{'openInKey' : fretboard.openInKey[$index]}">{{strings[5-$index]}}</div>
+
+				<!-- <select ng-model="strings[5-$index]" ng-options="note as note for note in notes" ng-change="changeTuning()"></select> -->
 			</div>
 			<div ng-repeat="fret in string.frets" class="fret fret_{{$index}}" ng-class="{'highlighted' : fret.highlight}">
 				<div class="note">

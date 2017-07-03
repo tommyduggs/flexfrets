@@ -21,4 +21,8 @@ app.controller("MainCtrl", ["$scope", "GuitarService", function($scope, GuitarSe
 		
 		$scope.fretboard = GuitarService.highlightKey(root, isMinor);
 	}
+
+	$scope.showTuner = function () {
+		console.log("works");
+	}
 }]);

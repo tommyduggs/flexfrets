@@ -47,6 +47,19 @@ body {
 
 .openInKey {
 	background-color: #257b47;
+    border: 2px solid white;
+    border-radius: 90%;
+
+    text-align: center;
+    vertical-align: bottom;
+    
+    line-height: 256%;
+    height: 80%;
+
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
 .highlighted > .note {
@@ -56,6 +69,7 @@ body {
 
 .open_string {
 	width: 9%;
+	height: 100%;
 	float: left;
 }
 
