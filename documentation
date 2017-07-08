@@ -29,14 +29,19 @@
 [X] Start using Git
 [X] Replace the select boxes with divs that contain text for the note
 [X] Add a click function for those divs
-[ ] Show a hidden div that contains all the notes to the left of the open strings
-[ ] Fire off a function when you click that changes the tuning for that string
-[ ] Add "show all notes" checkbox
-[ ] Implement functionality for show all notes
+
+//07/08/17
+[X] Fix "Change Key" open notes bug
+[X] Show / hide a div to the left of the notes when you click the open note
+[X] Add the notes in
+[X] Fire off a function when you click that changes the tuning for that string
+>>>> Breakfast + read at river!
+[X] Add "show all notes" checkbox
+[X] Implement functionality for show all notes
+>>>> Skateboarding?
 
 // All shown (key) notes should be 'highlighted' by default
 // Show all notes should then just show grey notes
-
 
 /*
 [ ] Design the app in Photoshop

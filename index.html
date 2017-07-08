@@ -6,31 +6,39 @@
 </head>
 
 <body ng-controller="MainCtrl">
+	<div class="change_key_div">
+		<select ng-model="key" ng-options="note as note for note in notes">
+			</select>
+		<select ng-model="majorMinorState" ng-options="option for option in majorMinorArray">
+			</select>
+	  	 <button ng-click="highlightKey(key)">Change Key</button>
+  	 </div>
+  	 <div class="show_all_notes_div">
+  	 	<label>Show All Notes
+    		<input type="checkbox" ng-model="showAllNotes" ng-change="toggleShowAllNotes()">
+  		</label>
+  	 </div>
 
 	<br/><br/>
+
+	<div class="tuner" ng-show="showTuner">
+		<div ng-repeat="note in notes" ng-click="changeTuning(note,$index)">{{note}}</div>
+	</div>
+
 	<div class="fretboard">
 		<div ng-repeat="string in fretboard.strings" class="string">
-			<div class="open_string" ng-click="showTuner()">
+			<div class="open_string" ng-click="toggleTuner(5-$index)">
 				<div class="open_note" ng-class="{'openInKey' : fretboard.openInKey[$index]}">{{strings[5-$index]}}</div>
 
 				<!-- <select ng-model="strings[5-$index]" ng-options="note as note for note in notes" ng-change="changeTuning()"></select> -->
 			</div>
-			<div ng-repeat="fret in string.frets" class="fret fret_{{$index}}" ng-class="{'highlighted' : fret.highlight}">
+			<div ng-repeat="fret in string.frets" class="fret fret_{{$index}}" ng-class="{'highlighted' : fret.highlight, 'showAll' : showAllNotes}">
 				<div class="note">
 				{{fret.note}}
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<br/>
-
-
-	<select ng-model="key" ng-options="note as note for note in notes">
-		</select>
-	<select ng-model="majorMinorState" ng-options="option for option in majorMinorArray">
-		</select>
-  	 <button ng-click="highlightKey(key)">Change Key</button>
 
 	<!--Import Scripts-->
 	<script src="js/angular.min.js"></script>
