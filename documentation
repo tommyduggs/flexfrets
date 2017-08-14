@@ -30,27 +30,56 @@
 [X] Replace the select boxes with divs that contain text for the note
 [X] Add a click function for those divs
 
-//07/08/17
+// 07/08/17
 [X] Fix "Change Key" open notes bug
 [X] Show / hide a div to the left of the notes when you click the open note
 [X] Add the notes in
 [X] Fire off a function when you click that changes the tuning for that string
->>>> Breakfast + read at river!
 [X] Add "show all notes" checkbox
 [X] Implement functionality for show all notes
->>>> Skateboarding?
+[X] "Modalize" the app content
+[X] Add mountains background behind modal
+[X] Add spacing and put a colorful background behind fretboard
+[X] Make the tuning box area take up space but be invisible
+[X] Changing the string tuning doesn't re-highlight
 
-// All shown (key) notes should be 'highlighted' by default
-// Show all notes should then just show grey notes
+// 08/03/17
+[X] Remove "Change Key"
+[X] Remove "Show All Notes"
+[X] Change the key on dropdown change
+[X] Pick a font for the application
+[X] Switch Major / Minor to a toggle
+[X] Stylize major / minor
+[X] Stylize the dropdown
+[X] Stylize the string tuning div
+[X] Stylize the open notes
+[X] Stylize the fretboard notes
+[X] V1.0 is done!
+-----------------
+[ ] Switch dropdown to <ul> / <li> and style using css
+[ ] Make dropdown bigger, more space between items, change hover color
+[ ] Add css to the initial selected item in the tuning div
+[ ] Animate the dropdown divs
+[ ] Find a better font that has flats
+[X] Disable text selection
+[~] Add hover animations to clickable objects
+	[X] Tuning notes should glow green
+[ ] Add toggle for # and b
+[ ] Add buttons to shift tuning up or down
+[ ] Add circles below the 3rd, 5th... frets
+[ ] Add a "Notes in Key" section
+[@] V1.1 is done!
+-----------------
+[ ] Switch to different css when below the minimum width
+[ ] Design responsive layout
+[ ] Add overlay when entering responsive model
+-----------------
+[ ] Clean up code
+[ ] Put online
+-----------------
+[ ] Add different scales
+[ ] Highlight the root note a different color
 
-/*
-[ ] Design the app in Photoshop
-[ ] Change width percentages to match design
-[ ] Pull out the open strings and make those bubbles bigger
-[ ] Add a "Notes in Key" section to the left / right of the fretboard
-[ ] Add a background behind the note divs
-[ ] Style everything
-*/
 ---------------------------
 - Functional Requirements -
 ---------------------------
@@ -64,7 +93,7 @@
 -------------------
 - UX Requirements -
 -------------------
-( ) Click note tuning, get a circle of notes to choose from
+( ) Create selection div for when you click to change string or tuning
 
 --------------
 - Data model -

@@ -1,10 +1,8 @@
 app.controller("MainCtrl", ["$scope", "GuitarService", function($scope, GuitarService) {
 	$scope.notes = ["G#/Ab","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G"];
 	$scope.strings = ["E","A","D","G","B","E"];
-	$scope.majorMinorState = "Major";
-	$scope.majorMinorArray = ["Major","Minor"];
 	$scope.isMinor = false;
-	$scope.key = "C";
+	$scope.keyRoot = "C";
 	$scope.fretboard = GuitarService.getFretboard();
 	$scope.showTuner = false;
 	$scope.showAllNotes = false;
@@ -18,17 +16,25 @@ app.controller("MainCtrl", ["$scope", "GuitarService", function($scope, GuitarSe
 		}
 		$scope.strings[currentString] = newNote;
 		$scope.fretboard = GuitarService.changeTuning($scope.strings);
+		$scope.changeKey();
 		$scope.toggleTuner();
 	}
 
-	$scope.highlightKey = function (root) {
+	$scope.changeKey = function () {
+		var keyRoot = $scope.keyRoot;
+		var isMinor = $scope.isMinor;
+
 		//If X#/Yb -> X#
-		if (root.length > 1) {
-			root = root.substring(0,2);
+		if (keyRoot.length > 1) {
+			keyRoot = keyRoot.substring(0,2);
 		}
-		var isMinor = ($scope.majorMinorState == "Minor");
-		
-		$scope.fretboard = GuitarService.highlightKey(root, isMinor);
+
+		$scope.fretboard = GuitarService.highlightKey(keyRoot, isMinor);
+	}
+
+	$scope.changeMajorMinor = function (isMinor) {
+		$scope.isMinor = isMinor;
+		$scope.changeKey();
 	}
 
 	$scope.toggleTuner = function (selectedString) {
