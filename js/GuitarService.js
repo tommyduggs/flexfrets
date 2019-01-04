@@ -1,20 +1,49 @@
 app.service('GuitarService', function() {
+	// CONSTANTS
+	var flatNotes = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
+	var sharpNotes = ["G#","A","A#","B","C","C#","D","D#","E","F","F#","G"];
+	var MAJOR_SCALE = [0, 2, 4, 5, 7, 9, 11];
+	var MIXOLYDIAN_MODE = [0, 2, 4, 5, 7, 9, 10];
+	var LYDIAN_MODE = [0, 2, 4, 6, 7, 9, 11];
+	var LYDIAN_DOMININANT_MODE = [0, 2, 4, 6, 7, 9, 10];
+	var PHRYGIAN_DOMINANT_MODE = [0, 1, 4, 5, 7, 8, 10];
+	var HARMONIC_MAJOR_SCALE = [0, 2, 4, 5, 7, 8, 11];
+	var NATURAL_MINOR_SCALE = [0, 2, 3, 5, 7, 8, 10];
+	var DORIAN_MODE = [0, 2, 3, 5, 7, 9, 10];
+	var HARMONIC_MINOR_SCALE = [0, 2, 3, 5, 7, 8, 11];
+	//var PENTATONIC_SCALE = [0, 2, 4, 7, 9];
 	var currentTuning = ["E","B","G","D","A","E"];
-	//We track the tuning backwards because with display the last string on top
+	var currentScale = 0;
 	var fretboard = [];
-	var currentKey = [];
-	var notes = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
+	var noteIndexInKey = [];
 	var numFrets = 12;
 	var numStrings = 6;
+	var isFlat = false;
+
+	var SCALES = [
+		{name: "Major scale", notes: [0, 2, 4, 5, 7, 9, 11]},
+		{name: "Mixolydian mode" , notes: [0, 2, 4, 5, 7, 9, 10]},
+		{name: "Lydian mode", notes: [0, 2, 4, 6, 7, 9, 11] },
+		{name: "Lydian dominant mode", notes: [0, 2, 4, 6, 7, 9, 10]},
+		{name: "Phrygian dominant mode", notes: [0, 2, 4, 5, 7, 8, 11]},
+		{name: "Harmonic major scale", notes: [0, 2, 4, 5, 7, 8, 11]},
+		{name: "Natural minor scale", notes: [0, 2, 3, 5, 7, 8, 10]},
+		{name: "Dorian mode", notes: [0, 2, 3, 5, 7, 9, 10]},
+		{name: "Harmonic minor scale", notes: [0, 2, 3, 5, 7, 8, 11]},
+		{name: "Melodic minor scale", notes: [0, 2, 3, 5, 7, 9, 11]},
+		{name: "Phrygian mode", notes: [0, 1, 3, 5, 7, 8, 10]},
+		{name: "Locrian mode", notes: [0, 1, 3, 5, 6, 8, 10]},
+		{name: "Blues scale", notes: [0, 3, 5, 6, 7, 10]},
+		{name: "Altered scale", notes: [0, 1, 3, 4, 6, 8, 10]},
+		{name: "Major pentatonic scale", notes: [0, 2, 4, 7, 9]},
+		{name: "Minor pentatonic scale", notes: [0, 3, 5, 7, 10]},
+		{name: "Chromatic Scale", notes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]},
+		{name: "Whole tone scale", notes: [0, 2, 4, 6, 8, 10]},
+		{name: "Octatonic scale", notes: [0, 2, 3, 5, 6, 8, 9, 11]},
+		{name: "Hexatonic scale", notes: [0, 3, 4, 7, 8, 11]}
+	]
 
 	var getNoteIndex = function(noteName) {
-		//This should really be done with a dictionary
-		//If X#/Yb -> X#
-		if (noteName.length > 1) {
-			noteName = noteName.substring(0,2);
-		}
-		//TODO Make this better
-
 		switch  (noteName) {
 			case "G#":
 			case "Ab":
@@ -52,7 +81,7 @@ app.service('GuitarService', function() {
 	var findRelativeMajor = function (root) {
 		var rootIndex = getNoteIndex(root);
 		var relativeMajorIndex = (rootIndex + 3) % 12;
-		var relativeMajor = notes[relativeMajorIndex];
+		var relativeMajor = flatNotes[relativeMajorIndex];
 
 		return relativeMajor;
 	}
@@ -64,11 +93,12 @@ app.service('GuitarService', function() {
 		for (j=0;j<numFrets;j++) {
 			noteIndex = (noteIndex + 1) % 12;
 			var highlight = false;
-			if(currentKey.indexOf(noteIndex) != -1)
+			if(noteIndexInKey.indexOf(noteIndex) != -1)
 			{
 				highlight = true;
 			}
-			var fret = {note: notes[noteIndex], highlight: highlight};
+			var note = isFlat ? flatNotes[noteIndex] : sharpNotes[noteIndex];
+			var fret = {note: note, highlight: highlight};
 			frets.push(fret);
 		}
 
@@ -77,65 +107,80 @@ app.service('GuitarService', function() {
 		return string;
 	}
 
-	var buildFretboard = function (stringTunings) {
+	var buildFretboard = function () {
 		var strings = [];
 		var openInKey = [];
 
 		for (i=0;i<numStrings;i++) {
-			var isInKey = currentKey.includes(getNoteIndex(stringTunings[i]));
+			var isInKey = noteIndexInKey.includes(getNoteIndex(currentTuning[i]));
 
 			openInKey.push(isInKey);
-			strings.push(buildString(stringTunings[i]));
+			strings.push(buildString(currentTuning[i]));
 		}
 
 		fretboard = {strings: strings, openInKey: openInKey};
 	}
 
-	var buildMajorKey = function (root) {
+	var buildScale = function (root, scaleIndex) {
+		// Get scale from index
+		var scale = SCALES[scaleIndex].notes;
+
+		// Index of root note in scale
 		var rootIndex = getNoteIndex(root);
-		var notesInKey = [
-			rootIndex,
-			(rootIndex + 2) % 12,
-			(rootIndex + 4) % 12,
-			(rootIndex + 5) % 12,
-			(rootIndex + 7) % 12,
-			(rootIndex + 9) % 12,
-			(rootIndex + 11) % 12
-		];
-		return notesInKey;
+		// Return array that will hold indices of all the notes in the scale
+		var noteIndexInKey = [];
+
+		// Loop through the scale array (starting on the root) and add to return array
+		for (var i = 0; i < scale.length; i++) {
+			noteIndexInKey.push((rootIndex + scale[i]) % 12);
+		}
+
+		return noteIndexInKey;
 	}
 
 	var changeStringTuning = function (stringIndex, newNote) {
 		fretboard.strings[stringIndex] = buildString(newNote);
 	}
 
-	this.changeTuning = function (tuning) {
+	var changeTuning = function (tuning, flat) {
+		isFlat = flat;
 		var noteArray = tuning.slice().reverse();
 		currentTuning = noteArray;
 		for(i=0;i<noteArray.length;i++){
 			changeStringTuning(i, noteArray[i]);
 		}
-
-		return fretboard;
+		return;
 	}
 
-	this.highlightKey = function (root, isMinor) {
+	var changeKey = function (root, isMinor) {
 		if (isMinor) {
 			root = findRelativeMajor(root)
 		}
-		currentKey = buildMajorKey(root);
-		buildFretboard(currentTuning);
 
+		noteIndexInKey = buildScale(root, currentScale);
+
+		return;
+	}
+
+	var changeScale = function (root, scaleIndex) {
+		currentScale = scaleIndex; 
+		noteIndexInKey = buildScale(root, scaleIndex);
+	}
+
+	var getFretboard = function () {
+		buildFretboard();
 		return fretboard;
 	}
 
-	this.getFretboard = function () {
-		return fretboard;
+	var initializeService = function () {
+		changeKey("C");
 	}
 
-	//Initialization Code
-	//qqq Move to its own method, or look up common protocol
-	buildFretboard(currentTuning);
-	this.highlightKey("C");
-	this.fretboard = fretboard;
+	initializeService();
+
+	this.changeTuning = changeTuning;
+	this.changeKey = changeKey;
+	this.changeScale = changeScale;
+	this.getFretboard = getFretboard;
+	this.scales = SCALES;
 });

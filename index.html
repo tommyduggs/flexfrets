@@ -1,41 +1,60 @@
 <!DOCTYPE html>
 <html ng-app="app">
+<meta name="viewport" content="width=device-width">
 
 <head>
 	<link rel="stylesheet" href ="css/style.css">
+	<link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body ng-controller="MainCtrl">
-	<div class="app_window">
-		<div class="top_bar">
-			<div class="top_bar_text">KEY:</div>
-			<div class="change_key_div">
-				<select ng-model="keyRoot" ng-options="note as note for note in notes" ng-change="changeKey()">
-					</select>
-				<div class="toggle" ng-click="changeMajorMinor(false)" ng-class="{'selected':!isMinor}">MAJOR</div>
-				<div class="toggle" ng-click="changeMajorMinor(true)" ng-class="{'selected':isMinor}">MINOR</div>
-		  	 </div>
+	<div class="orientation_overlay">
+		<div>Your device must be in landscape mode to use this application</div>
+	</div>
+	<div class="app-window">
+		<div class="menu-bar">
+			<div class="menu-bar-label">KEY:</div>
+			<div class="menu-button btn-fixed" ng-click="toggleKeyDropdown()" ng-class="{'open' : showKeyDropdown}">{{keyRoot}}</div>
+			<div class="menu-bar-label">SCALE:</div>
+			<div class="menu-button btn-dynamic" ng-click="toggleScaleDropdown()" ng-class="{'open' : showScaleDropdown}">{{currentScaleName}}</div>
+	  	 	<div class="menu-bar-label">NOTATION:</div>
+	  	 	<div class="toggle" ng-click="changeFlatsSharps(false)" ng-class="{'selected':!flatNotation}">#</div>
+	  	 	<div class="toggle" ng-click="changeFlatsSharps(true)" ng-class="{'selected':flatNotation}">b</div>
 	  	 </div>
 
-		<div class="content_area">
-			<div class="tuner" ng-show="showTuner">
-				<div class="tuner_inner">
-					<div class="tuner_notes" ng-repeat="note in notes" ng-click="changeTuning(note,$index)">{{note}}</div>
+		<div class="content-area">
+			<div class="selection-box dropdown-top" ng-show="showScaleDropdown">
+				<div class="close-button">X</div>
+				<div class="selection-box-container">
+					<div class="selection-box-option" ng-repeat="scale in scales" ng-click="changeScale($index, scale.name)">{{scale.name}}</div>
+				</div>
+			</div>
+			<div class="selection-box dropdown-top" ng-show="showKeyDropdown">
+				<div class="close-button" ng-click="toggleKeyDropdown()">X</div>
+				<div class="selection-box-container">
+					<div class="selection-box-option" ng-repeat="note in notes" ng-click="changeKey(note)">{{note}}</div>
+				</div>
+			</div>
+			<div class="selection-box dropdown-left" ng-show="showTuner">
+				<div class="close-button" ng-click="toggleTuner()">X</div>
+				<div class="selection-box-container">
+					<div class="selection-box-option" ng-repeat="note in notes" ng-click="changeTuning(note,$index)">{{note}}</div>
 				</div>
 			</div>
 
 			<div class="fretboard">
 				<div ng-repeat="string in fretboard.strings" class="string">
-					<div class="open_string" ng-click="toggleTuner(5-$index)">
-						<div class="open_note" ng-class="{'openInKey' : fretboard.openInKey[$index]}">{{strings[5-$index]}}</div>
+					<div class="open-note-container" ng-click="toggleTuner(5-$index)" ng-class="{'open-note-active' : isNoteActive(5-$index)}">
+						<div class="open-note" ng-class="{'open-in-key' : fretboard.openInKey[$index]}">{{string.frets[11].note}}</div>
 					</div>
-					<div ng-repeat="fret in string.frets" class="fret fret_{{$index}}" ng-class="{'highlighted' : fret.highlight, 'showAll' : showAllNotes}">
+					<div ng-repeat="fret in string.frets" class="fret fret-{{$index+1}}" ng-class="{'highlighted' : fret.highlight, 'showAll' : showAllNotes}">
 						<div class="note">
 						{{fret.note}}
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="overlay" ng-show="showKeyDropdown || showTuner"></div>
 		</div>
 	</div>
 
