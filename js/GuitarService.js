@@ -2,16 +2,6 @@ app.service('GuitarService', function() {
 	// CONSTANTS
 	var flatNotes = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
 	var sharpNotes = ["G#","A","A#","B","C","C#","D","D#","E","F","F#","G"];
-	var MAJOR_SCALE = [0, 2, 4, 5, 7, 9, 11];
-	var MIXOLYDIAN_MODE = [0, 2, 4, 5, 7, 9, 10];
-	var LYDIAN_MODE = [0, 2, 4, 6, 7, 9, 11];
-	var LYDIAN_DOMININANT_MODE = [0, 2, 4, 6, 7, 9, 10];
-	var PHRYGIAN_DOMINANT_MODE = [0, 1, 4, 5, 7, 8, 10];
-	var HARMONIC_MAJOR_SCALE = [0, 2, 4, 5, 7, 8, 11];
-	var NATURAL_MINOR_SCALE = [0, 2, 3, 5, 7, 8, 10];
-	var DORIAN_MODE = [0, 2, 3, 5, 7, 9, 10];
-	var HARMONIC_MINOR_SCALE = [0, 2, 3, 5, 7, 8, 11];
-	//var PENTATONIC_SCALE = [0, 2, 4, 7, 9];
 	var currentTuning = ["E","B","G","D","A","E"];
 	var currentScale = 0;
 	var fretboard = [];
