@@ -1,3 +1,7 @@
+/**
+ * Module description
+ * @class GuitarService
+ */
 app.service('GuitarService', function() {
 	// CONSTANTS
 	var flatNotes = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
@@ -76,6 +80,7 @@ app.service('GuitarService', function() {
 		return relativeMajor;
 	}
 
+	// tuning parameter is the open note the string is tuned to
 	var buildString = function (tuning) {
 		var noteIndex = getNoteIndex(tuning);
 		var frets = [];
@@ -83,12 +88,20 @@ app.service('GuitarService', function() {
 		for (j=0;j<numFrets;j++) {
 			noteIndex = (noteIndex + 1) % 12;
 			var highlight = false;
+			var isRoot = false;
 			if(noteIndexInKey.indexOf(noteIndex) != -1)
 			{
 				highlight = true;
+
+				// If the note is the at position 0 in noteIndexInKey array
+				// then it is the root note
+				if(noteIndexInKey.indexOf(noteIndex) == 0) {
+					isRoot = true;
+				}
 			}
+
 			var note = isFlat ? flatNotes[noteIndex] : sharpNotes[noteIndex];
-			var fret = {note: note, highlight: highlight};
+			var fret = {note: note, highlight: highlight, isRoot: isRoot};
 			frets.push(fret);
 		}
 
@@ -100,15 +113,19 @@ app.service('GuitarService', function() {
 	var buildFretboard = function () {
 		var strings = [];
 		var openInKey = [];
+		var openIsRoot = [];
 
 		for (i=0;i<numStrings;i++) {
-			var isInKey = noteIndexInKey.includes(getNoteIndex(currentTuning[i]));
+			var openNoteIndex = getNoteIndex(currentTuning[i])
+			var isInKey = noteIndexInKey.includes(openNoteIndex);
+			var isRoot = (noteIndexInKey[0] == openNoteIndex);
 
 			openInKey.push(isInKey);
+			openIsRoot.push(isRoot);
 			strings.push(buildString(currentTuning[i]));
 		}
 
-		fretboard = {strings: strings, openInKey: openInKey};
+		fretboard = {strings: strings, openInKey: openInKey, openIsRoot: openIsRoot};
 	}
 
 	var buildScale = function (root, scaleIndex) {

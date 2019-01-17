@@ -45,10 +45,10 @@
 			<div class="fretboard">
 				<div ng-repeat="string in fretboard.strings" class="string">
 					<div class="open-note-container" ng-click="toggleTuner(5-$index)" ng-class="{'open-note-active' : isNoteActive(5-$index)}">
-						<div class="open-note" ng-class="{'open-in-key' : fretboard.openInKey[$index]}">{{string.frets[11].note}}</div>
+						<div class="open-note" ng-class="{'open-in-key' : fretboard.openInKey[$index], 'open-root' : fretboard.openIsRoot[$index]}">{{string.frets[11].note}}</div>
 					</div>
-					<div ng-repeat="fret in string.frets" class="fret fret-{{$index+1}}" ng-class="{'highlighted' : fret.highlight, 'showAll' : showAllNotes}">
-						<div class="note">
+					<div ng-repeat="fret in string.frets" class="fret fret-{{$index+1}}" ng-class="{'highlighted' : fret.highlight}">
+						<div class="note" ng-class="{'root' : fret.isRoot}">
 						{{fret.note}}
 						</div>
 					</div>
