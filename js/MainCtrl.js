@@ -1,4 +1,4 @@
-app.controller("MainCtrl", ["$scope", "GuitarService", function($scope, GuitarService) {
+app.controller("MainCtrl", ["$scope", "GuitarHelperService", "FretboardService", function($scope, GuitarService, FretboardService) {
 	$scope.notes = ["G#/Ab","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G"];
 	$scope.strings = ["E","A","D","G","B","E"];
 	$scope.keyRoot = "C";
@@ -79,4 +79,7 @@ app.controller("MainCtrl", ["$scope", "GuitarService", function($scope, GuitarSe
 		}
 		return noteName;
 	}
+
+	var ss = FretboardService.guitarServiceTest();
+	console.log(ss);
 }]);

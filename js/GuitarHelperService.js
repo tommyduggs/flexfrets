@@ -2,8 +2,11 @@
  * Module description
  * @class GuitarService
  */
-app.service('GuitarService', function() {
-	// CONSTANTS
+app.service('GuitarHelperService', function() {
+	/**
+	 * [flatNotes description]
+	 * @type {Array}
+	 */
 	var flatNotes = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
 	var sharpNotes = ["G#","A","A#","B","C","C#","D","D#","E","F","F#","G"];
 	var currentTuning = ["E","B","G","D","A","E"];
@@ -183,6 +186,10 @@ app.service('GuitarService', function() {
 		changeKey("C");
 	}
 
+	var testFunction = function() {
+		return "testing";
+	}
+
 	initializeService();
 
 	this.changeTuning = changeTuning;
@@ -190,4 +197,5 @@ app.service('GuitarService', function() {
 	this.changeScale = changeScale;
 	this.getFretboard = getFretboard;
 	this.scales = SCALES;
+	this.testFunction = testFunction;
 });
