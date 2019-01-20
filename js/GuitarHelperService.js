@@ -7,15 +7,15 @@ app.service('GuitarHelperService', function() {
 	 * [flatNotes description]
 	 * @type {Array}
 	 */
+
+	//TODO use index for all variables, remove "index" from variable names
+
+	//TODO capitalize these constants
 	var flatNotes = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
 	var sharpNotes = ["G#","A","A#","B","C","C#","D","D#","E","F","F#","G"];
-	var currentTuning = ["E","B","G","D","A","E"];
-	var currentScale = 0;
-	var fretboard = [];
-	var noteIndexInKey = [];
 	var numFrets = 12;
 	var numStrings = 6;
-	var isFlat = false;
+	
 
 	var SCALES = [
 		{name: "Major scale", notes: [0, 2, 4, 5, 7, 9, 11]},
@@ -40,6 +40,7 @@ app.service('GuitarHelperService', function() {
 		{name: "Hexatonic scale", notes: [0, 3, 4, 7, 8, 11]}
 	]
 
+	// takes in note name string and returns corresponding index
 	var getNoteIndex = function(noteName) {
 		switch  (noteName) {
 			case "G#":
@@ -75,16 +76,26 @@ app.service('GuitarHelperService', function() {
 		}
 	}
 
-	var findRelativeMajor = function (root) {
-		var rootIndex = getNoteIndex(root);
-		var relativeMajorIndex = (rootIndex + 3) % 12;
-		var relativeMajor = flatNotes[relativeMajorIndex];
+	var buildScale = function (rootNote, scaleIndex) {
+		// Get scale from index
+		var scale = SCALES[scaleIndex].notes;
 
-		return relativeMajor;
+		// Index of root note in scale
+		var rootIndex = getNoteIndex(rootNote);
+		// Return array that will hold indices of all the notes in the scale
+		var noteIndexInKey = [];
+
+		// Loop through the scale array (starting on the root) and add to return array
+		for (var i = 0; i < scale.length; i++) {
+			noteIndexInKey.push((rootIndex + scale[i]) % 12);
+		}
+
+		return noteIndexInKey;
 	}
 
 	// tuning parameter is the open note the string is tuned to
-	var buildString = function (tuning) {
+	//TODO change that variable name to openNote
+	var buildString = function (tuning, flatNotation) {
 		var noteIndex = getNoteIndex(tuning);
 		var frets = [];
 
@@ -103,7 +114,7 @@ app.service('GuitarHelperService', function() {
 				}
 			}
 
-			var note = isFlat ? flatNotes[noteIndex] : sharpNotes[noteIndex];
+			var note = flatNotation ? flatNotes[noteIndex] : sharpNotes[noteIndex];
 			var fret = {note: note, highlight: highlight, isRoot: isRoot};
 			frets.push(fret);
 		}
@@ -113,7 +124,11 @@ app.service('GuitarHelperService', function() {
 		return string;
 	}
 
-	var buildFretboard = function () {
+	var buildFretboard = function (settings) {
+		var currentTuning = settings.currentTuning;
+		var flatNotation = settings.isFlat;
+		var noteIndexInKey = buildScale(settings.currentKey, settings.currentScale);
+
 		var strings = [];
 		var openInKey = [];
 		var openIsRoot = [];
@@ -125,77 +140,26 @@ app.service('GuitarHelperService', function() {
 
 			openInKey.push(isInKey);
 			openIsRoot.push(isRoot);
-			strings.push(buildString(currentTuning[i]));
+			strings.push(buildString(currentTuning[i],flatNotation));
 		}
 
 		fretboard = {strings: strings, openInKey: openInKey, openIsRoot: openIsRoot};
 	}
 
-	var buildScale = function (root, scaleIndex) {
-		// Get scale from index
-		var scale = SCALES[scaleIndex].notes;
+	// var changeStringTuning = function (stringIndex, newNote) {
+	// 	fretboard.strings[stringIndex] = buildString(newNote);
+	// }
 
-		// Index of root note in scale
-		var rootIndex = getNoteIndex(root);
-		// Return array that will hold indices of all the notes in the scale
-		var noteIndexInKey = [];
+	// var changeTuning = function (tuning, flat) {
+	// 	isFlat = flat;
+	// 	var noteArray = tuning.slice().reverse();
+	// 	currentTuning = noteArray;
+	// 	for(i=0;i<noteArray.length;i++){
+	// 		changeStringTuning(i, noteArray[i]);
+	// 	}
+	// 	return;
+	// }
 
-		// Loop through the scale array (starting on the root) and add to return array
-		for (var i = 0; i < scale.length; i++) {
-			noteIndexInKey.push((rootIndex + scale[i]) % 12);
-		}
-
-		return noteIndexInKey;
-	}
-
-	var changeStringTuning = function (stringIndex, newNote) {
-		fretboard.strings[stringIndex] = buildString(newNote);
-	}
-
-	var changeTuning = function (tuning, flat) {
-		isFlat = flat;
-		var noteArray = tuning.slice().reverse();
-		currentTuning = noteArray;
-		for(i=0;i<noteArray.length;i++){
-			changeStringTuning(i, noteArray[i]);
-		}
-		return;
-	}
-
-	var changeKey = function (root, isMinor) {
-		if (isMinor) {
-			root = findRelativeMajor(root)
-		}
-
-		noteIndexInKey = buildScale(root, currentScale);
-
-		return;
-	}
-
-	var changeScale = function (root, scaleIndex) {
-		currentScale = scaleIndex; 
-		noteIndexInKey = buildScale(root, scaleIndex);
-	}
-
-	var getFretboard = function () {
-		buildFretboard();
-		return fretboard;
-	}
-
-	var initializeService = function () {
-		changeKey("C");
-	}
-
-	var testFunction = function() {
-		return "testing";
-	}
-
-	initializeService();
-
-	this.changeTuning = changeTuning;
-	this.changeKey = changeKey;
-	this.changeScale = changeScale;
-	this.getFretboard = getFretboard;
 	this.scales = SCALES;
-	this.testFunction = testFunction;
+	this.buildFretboard = buildFretboard;
 });
