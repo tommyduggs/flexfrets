@@ -2,8 +2,9 @@
  * Stateful service that will manage the current fretboard
  * @class FretboardService
  */
-app.service('FretboardService', ['GuitarHelperService', function(GuitarService) {
+app.service('FretboardService', ['GuitarHelperService', function(GuitarHelperService) {
 
+	//default values
 	var settings = {
 		//TODO maybe rename to currentTuningArray? Look up naming conventions
 		currentTuning: ["E","B","G","D","A","E"],
@@ -30,12 +31,14 @@ app.service('FretboardService', ['GuitarHelperService', function(GuitarService) 
 	}
 
 	var getFretboard = function () {
-		return GuitarHelperService.buildFretboard(settings);
+		var fretboard = GuitarHelperService.buildFretboard(settings)
+		return fretboard;
 	}
 
 	this.changeKey = changeKey;
 	this.changeTuning = changeTuning;
 	this.changeScale = changeScale;
+	this.changeNotation = changeNotation;
 	this.getFretboard = getFretboard;
 
 }]);

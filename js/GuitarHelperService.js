@@ -95,7 +95,7 @@ app.service('GuitarHelperService', function() {
 
 	// tuning parameter is the open note the string is tuned to
 	//TODO change that variable name to openNote
-	var buildString = function (tuning, flatNotation) {
+	var buildString = function (tuning, noteIndexInKey, flatNotation) {
 		var noteIndex = getNoteIndex(tuning);
 		var frets = [];
 
@@ -135,15 +135,17 @@ app.service('GuitarHelperService', function() {
 
 		for (i=0;i<numStrings;i++) {
 			var openNoteIndex = getNoteIndex(currentTuning[i])
+			//TODO should be openIsInKey
 			var isInKey = noteIndexInKey.includes(openNoteIndex);
 			var isRoot = (noteIndexInKey[0] == openNoteIndex);
 
 			openInKey.push(isInKey);
 			openIsRoot.push(isRoot);
-			strings.push(buildString(currentTuning[i],flatNotation));
+			strings.push(buildString(currentTuning[i],noteIndexInKey,flatNotation));
 		}
 
 		fretboard = {strings: strings, openInKey: openInKey, openIsRoot: openIsRoot};
+		return fretboard;
 	}
 
 	// var changeStringTuning = function (stringIndex, newNote) {

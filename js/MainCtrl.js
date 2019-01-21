@@ -1,4 +1,5 @@
-app.controller("MainCtrl", ["$scope", "FretboardService", function($scope, FretboardService) {
+app.controller("MainCtrl", ["$scope", "FretboardService", "GuitarHelperService", function($scope, FretboardService, GuitarHelperService) {
+	//TODO default values in FreboardService then get them
 	$scope.notes = ["G#/Ab","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G"];
 	$scope.strings = ["E","A","D","G","B","E"];
 	$scope.keyRoot = "C";
@@ -10,11 +11,11 @@ app.controller("MainCtrl", ["$scope", "FretboardService", function($scope, Fretb
 	$scope.showAllNotes = false;
 	$scope.showKeyDropdown = false;
 	$scope.showScaleDropdown = false;
-
 	$scope.showOverlay = false;
-	$scope.fretboard = GuitarService.getFretboard();
+	$scope.scales = GuitarHelperService.scales;
 
-	$scope.scales = GuitarService.scales;
+	// Initialize fretboard
+	$scope.fretboard = FretboardService.getFretboard();
 
 	var currentString;
 
@@ -22,7 +23,7 @@ app.controller("MainCtrl", ["$scope", "FretboardService", function($scope, Fretb
 
 	$scope.changeKey = function (keyRoot) {
 		$scope.keyRoot = trimNoteName(keyRoot);
-		FreboardService.changeKey($scope.keyRoot);
+		FretboardService.changeKey($scope.keyRoot);
 		$scope.fretboard = FretboardService.getFretboard();
 		$scope.showKeyDropdown = false;
 	}
@@ -31,24 +32,24 @@ app.controller("MainCtrl", ["$scope", "FretboardService", function($scope, Fretb
 		//TODO figure out why this needs to be a scope variable
 		$scope.currentScaleIndex = scaleIndex;
 		$scope.currentScaleName = scaleName;
-		FreboardService.changeScale(scaleIndex);
-		$scope.fretboard = FreboardService.getFretboard();
+		FretboardService.changeScale(scaleIndex);
+		$scope.fretboard = FretboardService.getFretboard();
 		$scope.showScaleDropdown = false;
 	}
 
 	//TODO give this a better name
 	$scope.changeFlatsSharps = function (flatNotation) {
 		$scope.flatNotation = flatNotation;
-		FreboardService.changeNotation(flatNotation);
-		$scope.fretboard = FreboardService.getFretboard();
+		FretboardService.changeNotation(flatNotation);
+		$scope.fretboard = FretboardService.getFretboard();
 	}
 
 	$scope.changeTuning = function (newNote) {
 		//TODO get rid of trimNoteName, find a better way to do this
 		newNote = trimNoteName(newNote);
 		$scope.strings[currentString] = newNote;
-		FreboardService.changeTuning($scope.strings);
-		$scope.fretboard = GuitarService.getFretboard();
+		FretboardService.changeTuning($scope.strings);
+		$scope.fretboard = FretboardService.getFretboard();
 		$scope.showTuner = false;
 	}
 
