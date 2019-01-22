@@ -1,88 +1,68 @@
-app.controller("MainCtrl", ["$scope", "FretboardService", "GuitarHelperService", function($scope, FretboardService, GuitarHelperService) {
-	//TODO default values in FreboardService then get them
-	$scope.notes = ["G#/Ab","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G"];
-	$scope.strings = ["E","A","D","G","B","E"];
-	$scope.keyRoot = "C";
-	$scope.currentScaleName = "Major scale";
-	$scope.currentScaleIndex = 0;
-	$scope.flatNotation = false;
-	$scope.isMinor = false;
-	$scope.showTuner = false;
-	$scope.showAllNotes = false;
-	$scope.showKeyDropdown = false;
+app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, GuitarHelperService) {
+	$scope.showTunerDropdown = false;
+	$scope.showRootNoteDropdown = false;
 	$scope.showScaleDropdown = false;
 	$scope.showOverlay = false;
-	$scope.scales = GuitarHelperService.scales;
+
+	$scope.notes = GuitarHelperService.NOTES;
+	$scope.scales = GuitarHelperService.SCALES;
+	$scope.settings = GuitarHelperService.DEFAULT_SETTINGS;
 
 	// Initialize fretboard
-	$scope.fretboard = FretboardService.getFretboard();
+	$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 
-	var currentString;
-
-	//TODO maybe clean this file up
-
-	$scope.changeKey = function (keyRoot) {
-		$scope.keyRoot = trimNoteName(keyRoot);
-		FretboardService.changeKey($scope.keyRoot);
-		$scope.fretboard = FretboardService.getFretboard();
-		$scope.showKeyDropdown = false;
-	}
-
-	$scope.changeScale = function (scaleIndex, scaleName) {
-		//TODO figure out why this needs to be a scope variable
-		$scope.currentScaleIndex = scaleIndex;
-		$scope.currentScaleName = scaleName;
-		FretboardService.changeScale(scaleIndex);
-		$scope.fretboard = FretboardService.getFretboard();
+	$scope.hideAllDropdowns = function () {
+		$scope.showTunerDropdown = false;
+		$scope.showRootNoteDropdown = false;
 		$scope.showScaleDropdown = false;
 	}
 
-	//TODO give this a better name
-	$scope.changeFlatsSharps = function (flatNotation) {
-		$scope.flatNotation = flatNotation;
-		FretboardService.changeNotation(flatNotation);
-		$scope.fretboard = FretboardService.getFretboard();
-	}
-
-	$scope.changeTuning = function (newNote) {
-		//TODO get rid of trimNoteName, find a better way to do this
-		newNote = trimNoteName(newNote);
-		$scope.strings[currentString] = newNote;
-		FretboardService.changeTuning($scope.strings);
-		$scope.fretboard = FretboardService.getFretboard();
-		$scope.showTuner = false;
-	}
-
+	// Selected string is index of current string being tuned
 	$scope.toggleTuner = function (selectedString) {
-		currentString = selectedString;
-		$scope.showTuner = !$scope.showTuner;
-		$scope.showKeyDropdown = false;
+		$scope.currentString = selectedString;
+
+		$scope.showTunerDropdown = !$scope.showTunerDropdown;
+		$scope.showRootNoteDropdown = false;
+		$scope.showScaleDropdown = false;
 	}
 
-	$scope.toggleKeyDropdown = function () {
-		$scope.showTuner = false;
-		$scope.showKeyDropdown = !$scope.showKeyDropdown;
+	$scope.toggleRootNoteDropdown = function () {
+		$scope.showTunerDropdown = false;
+		$scope.showRootNoteDropdown = !$scope.showRootNoteDropdown;
+		$scope.showScaleDropdown = false;
 	}
 
 	$scope.toggleScaleDropdown = function () {
-		$scope.showTuner = false;
-		$scope.showKeyDropdown = false;
+		$scope.showTunerDropdown = false;
+		$scope.showRootNoteDropdown = false;
 		$scope.showScaleDropdown = !$scope.showScaleDropdown;
 	}
 
-	$scope.isNoteActive = function (string) {
-		if (!$scope.showTuner) {
-			return false;
-		}
-
-		return (currentString == string);
+	// newStartNote is index value of new starting note
+	$scope.changeStartNote = function (newStartNote) {
+		$scope.settings.currentStartNote = newStartNote;
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+		$scope.showRootNoteDropdown = false;
 	}
 
-	var trimNoteName = function (noteName) {
-		//If X#/Yb -> X#
-		if (noteName.length > 2) {
-			noteName = noteName.substring(0,2);
-		}
-		return noteName;
+	// newScale is index value of new scale
+	$scope.changeScale = function (newScale) {
+		$scope.settings.currentScale = newScale;
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+		$scope.showScaleDropdown = false;
+	}
+
+	// newNote is index value of new note
+	$scope.changeTuning = function (newNote) {
+		$scope.settings.currentTuning[$scope.currentString] = newNote;
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+		$scope.showTunerDropdown = false;
+	}
+
+	// flatNotation is boolean for whether current notation is flats
+	// if false, then current notation is sharps
+	$scope.changeNotation = function (flatNotation) {
+		$scope.settings.flatNotation = flatNotation;
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 	}
 }]);

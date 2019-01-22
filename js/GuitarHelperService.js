@@ -3,20 +3,59 @@
  * @class GuitarService
  */
 app.service('GuitarHelperService', function() {
+
 	/**
-	 * [flatNotes description]
+	 * [FLAT_NOTES description]
 	 * @type {Array}
 	 */
+	var FLAT_NOTES = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
 
-	//TODO use index for all variables, remove "index" from variable names
+	/**
+	 * [SHARP_NOTES description]
+	 * @type {Array}
+	 */
+	var SHARP_NOTES = ["G#","A","A#","B","C","C#","D","D#","E","F","F#","G"];
 
-	//TODO capitalize these constants
-	var flatNotes = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
-	var sharpNotes = ["G#","A","A#","B","C","C#","D","D#","E","F","F#","G"];
-	var numFrets = 12;
-	var numStrings = 6;
-	
+	/**
+	 * [NUM_FRETS description]
+	 * @type {Number}
+	 */
+	var NUM_FRETS = 12;
 
+	/**
+	 * [NUM_STRINGS description]
+	 * @type {Number}
+	 */
+	var NUM_STRINGS = 6;
+
+	/**
+	 * [NOTES description]
+	 * @type {Array}
+	 */
+	var NOTES = ["G#/Ab","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G"]; 
+
+	/**
+	 * [DEFAULT_SETTINGS description]
+	 * @type {Object}
+	 */
+	var DEFAULT_SETTINGS = {
+		currentTuning: [
+			8,	// E
+			3,	// B
+			11, // G
+			6,  // D
+			1,  // A
+			8,  // E
+		],
+		currentScale: 0, // Major Scale
+		currentStartNote: 4, // C
+		flatNotation: false
+	};
+
+	/**
+	 * [SCALES description]
+	 * @type {Array}
+	 */
 	var SCALES = [
 		{name: "Major scale", notes: [0, 2, 4, 5, 7, 9, 11]},
 		{name: "Mixolydian mode" , notes: [0, 2, 4, 5, 7, 9, 10]},
@@ -38,130 +77,115 @@ app.service('GuitarHelperService', function() {
 		{name: "Whole tone scale", notes: [0, 2, 4, 6, 8, 10]},
 		{name: "Octatonic scale", notes: [0, 2, 3, 5, 6, 8, 9, 11]},
 		{name: "Hexatonic scale", notes: [0, 3, 4, 7, 8, 11]}
-	]
+	];
 
-	// takes in note name string and returns corresponding index
-	var getNoteIndex = function(noteName) {
-		switch  (noteName) {
-			case "G#":
-			case "Ab":
-				return 0;
-			case "A":
-				return 1;
-			case "A#":
-			case "Bb":
-				return 2;
-			case "B":
-				return 3;
-			case "C":
-				return 4;
-			case "C#":
-			case "Db":
-				return 5;
-			case "D":
-				return 6;
-			case "D#":
-			case "Eb":
-				return 7;
-			case "E":
-				return 8;
-			case "F":
-				return 9;
-			case "F#":
-			case "Gb":
-				return 10;
-			case "G":
-				return 11;
-				break;
-		}
-	}
-
-	var buildScale = function (rootNote, scaleIndex) {
-		// Get scale from index
+	/**
+	 * [getNotesInScale description]
+	 * @param  {[type]} startNote  [description]
+	 * @param  {[type]} scaleIndex [description]
+	 * @return {[type]}            [description]
+	 */
+	var getNotesInScale = function (startNote, scaleIndex) {
+		// Get scale notes from index
 		var scale = SCALES[scaleIndex].notes;
 
-		// Index of root note in scale
-		var rootIndex = getNoteIndex(rootNote);
 		// Return array that will hold indices of all the notes in the scale
-		var noteIndexInKey = [];
+		var notesInScale = [];
 
 		// Loop through the scale array (starting on the root) and add to return array
 		for (var i = 0; i < scale.length; i++) {
-			noteIndexInKey.push((rootIndex + scale[i]) % 12);
+			notesInScale.push((startNote + scale[i]) % 12);
 		}
 
-		return noteIndexInKey;
+		return notesInScale;
 	}
 
-	// tuning parameter is the open note the string is tuned to
-	//TODO change that variable name to openNote
-	var buildString = function (tuning, noteIndexInKey, flatNotation) {
-		var noteIndex = getNoteIndex(tuning);
+	/**
+	 * [buildString description]
+	 * @param  {[type]} openNote       [description]
+	 * @param  {[type]} notesInScale [description]
+	 * @param  {[type]} flatNotation   [description]
+	 * @return {[type]}                [description]
+	 */
+	var buildString = function (openNote, notesInScale, flatNotation) {
+		/**
+		 * Boolean that denotes whether the string's open note is in the current scale
+		 * @type {boolean}
+		 */
+		var openNoteIsInScale = notesInScale.includes(openNote);
+
+		/**
+		 * Boolean that denotes whether the string's open note is the root note of the scale
+		 * @type {boolean}
+		 */
+		var openNoteIsRoot = (notesInScale[0] == openNote);
+
+		/**
+		 * Array of Fret JSON object that contain the following keys:
+		 * note: string that shows the name of the note
+		 * isInScale: boolean that denotes whether the note is in the scale
+		 * isRoot: boolean that denotes whether the note is the root of the scale
+		 * @type {Array}
+		 */
 		var frets = [];
 
-		for (j=0;j<numFrets;j++) {
-			noteIndex = (noteIndex + 1) % 12;
-			var highlight = false;
-			var isRoot = false;
-			if(noteIndexInKey.indexOf(noteIndex) != -1)
-			{
-				highlight = true;
+		var currentNote = openNote;
 
-				// If the note is the at position 0 in noteIndexInKey array
-				// then it is the root note
-				if(noteIndexInKey.indexOf(noteIndex) == 0) {
+		// Iterate through the frets, starting on the first one
+		for (j=0;j<NUM_FRETS;j++) {
+			currentNote = (currentNote + 1) % 12;
+			var isInScale = false;
+			var isRoot = false;
+
+			// Check if note is in the scale
+			if(notesInScale.indexOf(currentNote) != -1)
+			{
+				isInScale = true;
+
+				// Check if note is root note
+				if(notesInScale.indexOf(currentNote) == 0) {
 					isRoot = true;
 				}
 			}
 
-			var note = flatNotation ? flatNotes[noteIndex] : sharpNotes[noteIndex];
-			var fret = {note: note, highlight: highlight, isRoot: isRoot};
+			var note = flatNotation ? FLAT_NOTES[currentNote] : SHARP_NOTES[currentNote];
+			var fret = {note: note, isInScale: isInScale, isRoot: isRoot};
 			frets.push(fret);
 		}
 
-		var string = {frets: frets};
+		var string = { 
+			openNoteIsInScale: openNoteIsInScale,
+			openNoteIsRoot: openNoteIsRoot,
+			frets: frets
+		};
 
 		return string;
 	}
 
-	var buildFretboard = function (settings) {
+	/**
+	 * [getFretboard description]
+	 * @param  {[type]} settings [description]
+	 * @return {[type]}          [description]
+	 */
+	var getFretboard = function (settings) {
 		var currentTuning = settings.currentTuning;
-		var flatNotation = settings.isFlat;
-		var noteIndexInKey = buildScale(settings.currentKey, settings.currentScale);
+		var flatNotation = settings.flatNotation;
+		var notesInScale = getNotesInScale(settings.currentStartNote, settings.currentScale);
 
 		var strings = [];
-		var openInKey = [];
-		var openIsRoot = [];
 
-		for (i=0;i<numStrings;i++) {
-			var openNoteIndex = getNoteIndex(currentTuning[i])
-			//TODO should be openIsInKey
-			var isInKey = noteIndexInKey.includes(openNoteIndex);
-			var isRoot = (noteIndexInKey[0] == openNoteIndex);
-
-			openInKey.push(isInKey);
-			openIsRoot.push(isRoot);
-			strings.push(buildString(currentTuning[i],noteIndexInKey,flatNotation));
+		for (i=0;i<NUM_STRINGS;i++) {
+			strings.push(buildString(currentTuning[i],notesInScale,flatNotation));
 		}
 
-		fretboard = {strings: strings, openInKey: openInKey, openIsRoot: openIsRoot};
+		var fretboard = {strings: strings};
+
 		return fretboard;
 	}
 
-	// var changeStringTuning = function (stringIndex, newNote) {
-	// 	fretboard.strings[stringIndex] = buildString(newNote);
-	// }
-
-	// var changeTuning = function (tuning, flat) {
-	// 	isFlat = flat;
-	// 	var noteArray = tuning.slice().reverse();
-	// 	currentTuning = noteArray;
-	// 	for(i=0;i<noteArray.length;i++){
-	// 		changeStringTuning(i, noteArray[i]);
-	// 	}
-	// 	return;
-	// }
-
-	this.scales = SCALES;
-	this.buildFretboard = buildFretboard;
+	this.NOTES = NOTES;
+	this.SCALES = SCALES;
+	this.DEFAULT_SETTINGS = DEFAULT_SETTINGS;
+	
+	this.getFretboard = getFretboard;
 });
