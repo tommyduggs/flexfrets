@@ -57,11 +57,18 @@ body {
 
 .dropdown-top {
 	padding-top: 1px;
-	margin-left: 33px;
 }
 
 .dropdown-top.ng-hide {
 	margin-top:-495px;
+}
+
+.dropdown-top.dropdown-start-note {
+	margin-left: 128px;
+}
+
+.dropdown-top.dropdown-scale {
+	margin-left: 263px;
 }
 
 .fret {
