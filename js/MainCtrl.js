@@ -1,9 +1,13 @@
+/**
+ * Main controller that will store application state and interact with the GuitarHelperService
+ */
 app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, GuitarHelperService) {
+
 	$scope.showTunerDropdown = false;
 	$scope.showRootNoteDropdown = false;
 	$scope.showScaleDropdown = false;
 	$scope.showOverlay = false;
-
+	
 	$scope.notes = GuitarHelperService.NOTES;
 	$scope.scales = GuitarHelperService.SCALES;
 	$scope.settings = GuitarHelperService.DEFAULT_SETTINGS;
@@ -65,4 +69,20 @@ app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, Gu
 		$scope.settings.flatNotation = flatNotation;
 		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 	}
+
+	// this function uniformly changes the tuning for all strings
+	// offset parameter determines what the change should be
+	$scope.shiftTuning = function (offset) {
+		$scope.settings.currentTuning = $scope.settings.currentTuning.map(function(note) {
+			return mod((note + offset), 12);
+		});
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+	}
+
+	/**
+	 * Computes x mod n
+	 * x arbitrary integer
+	 * n natural number
+	 */
+	const mod = (x, n) => (x % n + n) % n
 }]);

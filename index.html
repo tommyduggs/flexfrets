@@ -22,6 +22,8 @@
 	  	 	<div class="menu-bar-label">NOTATION:</div>
 	  	 	<div class="toggle" ng-click="changeNotation(false)" ng-class="{'selected':!settings.flatNotation}">#</div>
 	  	 	<div class="toggle" ng-click="changeNotation(true)" ng-class="{'selected':settings.flatNotation}">b</div>
+	  	 	<div class="menu-button btn-dynamic" ng-click="shiftTuning(1)">Tune Up</div>
+	  	 	<div class="menu-button btn-dynamic" ng-click="shiftTuning(-1)">Tune Down</div>
 	  	 </div>
 
 		<div class="content-area">
