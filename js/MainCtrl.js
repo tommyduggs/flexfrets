@@ -1,5 +1,6 @@
 /**
- * Main controller that will store application state and interact with the GuitarHelperService
+ * @namespace MainCtrl
+ * @desc Main Controller
  */
 app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, GuitarHelperService) {
 
@@ -12,16 +13,27 @@ app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, Gu
 	$scope.scales = GuitarHelperService.SCALES;
 	$scope.settings = GuitarHelperService.DEFAULT_SETTINGS;
 
-	// Initialize fretboard
+	/* Initialize fretboard */
 	$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 
+	/**
+	 * @name hideAllDropdowns
+	 * @function
+	 * @desc Hides any dropdowns that are currently visible
+	 * @memberOf MainCtrl
+	 */
 	$scope.hideAllDropdowns = function () {
 		$scope.showTunerDropdown = false;
 		$scope.showRootNoteDropdown = false;
 		$scope.showScaleDropdown = false;
 	}
 
-	// Selected string is index of current string being tuned
+	/**
+	 * @name toggleTuner
+	 * @function
+	 * @desc Hides any dropdowns that are currently visible and sets the current string variable
+	 * @memberOf MainCtrl
+	 */
 	$scope.toggleTuner = function (selectedString) {
 		$scope.currentString = selectedString;
 
@@ -30,48 +42,89 @@ app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, Gu
 		$scope.showScaleDropdown = false;
 	}
 
+	/**
+	 * @name toggleRootNoteDropdown
+	 * @function
+	 * @desc Shows root note selection dropdown, hides any other dropdowns
+	 * @memberOf MainCtrl
+	 */
 	$scope.toggleRootNoteDropdown = function () {
 		$scope.showTunerDropdown = false;
 		$scope.showRootNoteDropdown = !$scope.showRootNoteDropdown;
 		$scope.showScaleDropdown = false;
 	}
 
+	/**
+	 * @name toggleScaleDropdown
+	 * @function
+	 * @desc Shows root note selection dropdown, hides any other dropdowns
+	 * @memberOf MainCtrl
+	 */
 	$scope.toggleScaleDropdown = function () {
 		$scope.showTunerDropdown = false;
 		$scope.showRootNoteDropdown = false;
 		$scope.showScaleDropdown = !$scope.showScaleDropdown;
 	}
 
-	// newStartNote is index value of new starting note
-	$scope.changeStartNote = function (newStartNote) {
-		$scope.settings.currentStartNote = newStartNote;
+	/**
+	 * @name changeRootNote
+	 * @function
+	 * @desc Changes root note of current scale
+	 * @param {number} newRootNote Index of new root note
+	 * @memberOf MainCtrl
+	 * @uses GuitarHelperService.getFretboard
+	 */
+	$scope.changeRootNote = function (newRootNote) {
+		$scope.settings.currentRootNote = newRootNote;
 		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 		$scope.showRootNoteDropdown = false;
 	}
 
-	// newScale is index value of new scale
+	/**
+	 * @name changeScale
+	 * @function
+	 * @desc Changes the current scale
+	 * @param {number} newScale Index of new scale
+	 * @memberOf MainCtrl
+	 */
 	$scope.changeScale = function (newScale) {
 		$scope.settings.currentScale = newScale;
 		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 		$scope.showScaleDropdown = false;
 	}
 
-	// newNote is index value of new note
+	/**
+	 * @name changeTuning
+	 * @function
+	 * @desc Changes the starting note of the current active string
+	 * @param {number} newNote Index of new note
+	 * @memberOf MainCtrl
+	 */
 	$scope.changeTuning = function (newNote) {
 		$scope.settings.currentTuning[$scope.currentString] = newNote;
 		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 		$scope.showTunerDropdown = false;
 	}
 
-	// flatNotation is boolean for whether current notation is flats
-	// if false, then current notation is sharps
+	/**
+	 * @name changeNotation
+	 * @function
+	 * @desc Change to either flat or sharp notation
+	 * @param {boolean} flatNotation True if flat, false if sharp
+	 * @memberOf MainCtrl
+	 */
 	$scope.changeNotation = function (flatNotation) {
 		$scope.settings.flatNotation = flatNotation;
 		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 	}
 
-	// this function uniformly changes the tuning for all strings
-	// offset parameter determines what the change should be
+	/**
+	 * @name shiftTuning
+	 * @function
+	 * @desc Uniformly changes the tuning for all strings
+	 * @param {number} offset Amount to offset the start note by for each string
+	 * @memberOf MainCtrl
+	 */
 	$scope.shiftTuning = function (offset) {
 		$scope.settings.currentTuning = $scope.settings.currentTuning.map(function(note) {
 			return mod((note + offset), 12);
@@ -79,10 +132,6 @@ app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, Gu
 		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
 	}
 
-	/**
-	 * Computes x mod n
-	 * x arbitrary integer
-	 * n natural number
-	 */
+	/* modular arithmetic function from https://maurobringolf.ch/2017/12/a-neat-trick-to-compute-modulo-of-negative-numbers/ */
 	const mod = (x, n) => (x % n + n) % n
 }]);

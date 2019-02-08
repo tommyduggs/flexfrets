@@ -1,43 +1,55 @@
 /**
- * Module description
- * @class GuitarService
+ * @namespace GuitarHelperService
+ * @desc Service that contains music theory logic and constants
  */
 app.service('GuitarHelperService', function() {
 
 	/**
-	 * [FLAT_NOTES description]
+	 * @constant
 	 * @type {Array}
+	 * @desc Array of notes written with flat notation
+	 * @memberOf GuitarHelperService
 	 */
 	var FLAT_NOTES = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
 
 	/**
-	 * [SHARP_NOTES description]
+	 * @constant
 	 * @type {Array}
+	 * @desc Array of notes written with sharp notation
+	 * @memberOf GuitarHelperService
 	 */
 	var SHARP_NOTES = ["G#","A","A#","B","C","C#","D","D#","E","F","F#","G"];
 
 	/**
-	 * [NUM_FRETS description]
-	 * @type {Number}
+	 * @constant
+	 * @type {number}
+	 * @desc Number of frets we are displaying
+	 * @memberOf GuitarHelperService
 	 */
 	var NUM_FRETS = 12;
 
 	/**
-	 * [NUM_STRINGS description]
-	 * @type {Number}
+	 * @constant
+	 * @type {number}
+	 * @desc Number of guitar strings we are displaying
+	 * @memberOf GuitarHelperService
 	 */
 	var NUM_STRINGS = 6;
 
 	/**
-	 * [NOTES description]
+	 * @constant
 	 * @type {Array}
+	 * @desc Array of notes that includes both flats and sharps.
+	 * @memberOf GuitarHelperService
 	 */
-	var NOTES = ["G#/Ab","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G"]; 
+	var NOTES = ["G#/Ab","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G"];
 
 	/**
-	 * [DEFAULT_SETTINGS description]
-	 * @type {Object}
-	 */
+	 * @constant
+	 * @type {Settings}
+	 * @desc Default application settings
+	 * @memberOf GuitarHelperService
+	 */ 
 	var DEFAULT_SETTINGS = {
 		currentTuning: [
 			8,	// E
@@ -48,13 +60,15 @@ app.service('GuitarHelperService', function() {
 			8,  // E
 		],
 		currentScale: 0, // Major Scale
-		currentStartNote: 4, // C
+		currentRootNote: 4, // C
 		flatNotation: false
 	};
 
 	/**
-	 * [SCALES description]
-	 * @type {Array}
+	 * @constant
+	 * @type {object[]}
+	 * @desc Array of scale names and the note progression for each scale (0 being the root note)
+	 * @memberOf GuitarHelperService
 	 */
 	var SCALES = [
 		{name: "Major scale", notes: [0, 2, 4, 5, 7, 9, 11]},
@@ -80,12 +94,47 @@ app.service('GuitarHelperService', function() {
 	];
 
 	/**
-	 * [getNotesInScale description]
-	 * @param  {[type]} startNote  [description]
-	 * @param  {[type]} scaleIndex [description]
-	 * @return {[type]}            [description]
+	 * @typedef Fret
+	 * @type {object}
+	 * @desc Contains properties that the front-end uses to determine how to display the fret
+	 * @property {string} note Name of the note to display on the screen
+	 * @property {boolean} isInScale Is the note in the scale
+	 * @property {boolean} isRoot Is the note the root note
 	 */
-	var getNotesInScale = function (startNote, scaleIndex) {
+	
+	/**
+	 * @typedef String
+	 * @type {Fret[]}
+	 * @desc Array of fret objects that compose a string
+	 */
+	
+	/**
+	 * @typedef Fretboard
+	 * @type {String[]}
+	 * @desc Array of string objects that make up the fretboard
+	 */
+	
+	/**
+	 * @typedef Settings
+	 * @type {object}
+	 * @desc Object that contains the current settings
+	 * @property {number[]} currentTuning Array of NOTE indexes (starting on the high string)
+	 * that represent the starting note of each string
+	 * @property {number} currentScale SCALE Index of the current scale
+	 * @property {number} currentRootNote NOTE Index of the current root note
+	 * @property {flatNotation} boolean Is the current notation flat 
+	 */
+
+	/**
+	 * @name getNotesInScale
+	 * @function
+	 * @desc Calculates the notes in a scale starting on the given root note
+	 * @param {number} rootNote Index of root note (in NOTES array)
+	 * @param {number} scaleIndex Index of scale (in SCALES array)
+	 * @returns {number[]} Array of indexes of the notes in the scale
+	 * @memberOf GuitarHelperService
+	 */
+	var getNotesInScale = function (rootNote, scaleIndex) {
 		// Get scale notes from index
 		var scale = SCALES[scaleIndex].notes;
 
@@ -94,39 +143,29 @@ app.service('GuitarHelperService', function() {
 
 		// Loop through the scale array (starting on the root) and add to return array
 		for (var i = 0; i < scale.length; i++) {
-			notesInScale.push((startNote + scale[i]) % 12);
+			notesInScale.push((rootNote + scale[i]) % 12);
 		}
 
 		return notesInScale;
 	}
 
 	/**
-	 * [buildString description]
-	 * @param  {[type]} openNote       [description]
-	 * @param  {[type]} notesInScale [description]
-	 * @param  {[type]} flatNotation   [description]
-	 * @return {[type]}                [description]
+	 * @name buildString
+	 * @function
+	 * @desc Calculate the properties for each fret in the string
+	 * @param {number} openNote Index of string's open (starting) note
+	 * @param {number[]} notesInScale Array of notes in the current scale
+	 * @param {boolean} flatNotation Flag that determines if notation is flats or sharps
+	 * @returns {String} Array of Fret JSON objects
+	 * @memberOf GuitarHelperService
 	 */
 	var buildString = function (openNote, notesInScale, flatNotation) {
-		/**
-		 * Boolean that denotes whether the string's open note is in the current scale
-		 * @type {boolean}
-		 */
+		// Boolean that denotes whether the string's open note is in the current scale
 		var openNoteIsInScale = notesInScale.includes(openNote);
 
-		/**
-		 * Boolean that denotes whether the string's open note is the root note of the scale
-		 * @type {boolean}
-		 */
+		// Boolean that denotes whether the string's open note is the root note of the scale
 		var openNoteIsRoot = (notesInScale[0] == openNote);
 
-		/**
-		 * Array of Fret JSON object that contain the following keys:
-		 * note: string that shows the name of the note
-		 * isInScale: boolean that denotes whether the note is in the scale
-		 * isRoot: boolean that denotes whether the note is the root of the scale
-		 * @type {Array}
-		 */
 		var frets = [];
 
 		var currentNote = openNote;
@@ -163,14 +202,17 @@ app.service('GuitarHelperService', function() {
 	}
 
 	/**
-	 * [getFretboard description]
-	 * @param  {[type]} settings [description]
-	 * @return {[type]}          [description]
+	 * @name getFretboard
+	 * @function
+	 * @desc Generates the Fretboard object array with the given settings
+	 * @param {Settings} settings Current settings
+	 * @returns {Fretboard} Fretboard Array
+	 * @memberOf GuitarHelperService
 	 */
 	var getFretboard = function (settings) {
 		var currentTuning = settings.currentTuning;
 		var flatNotation = settings.flatNotation;
-		var notesInScale = getNotesInScale(settings.currentStartNote, settings.currentScale);
+		var notesInScale = getNotesInScale(settings.currentRootNote, settings.currentScale);
 
 		var strings = [];
 

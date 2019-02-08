@@ -16,7 +16,7 @@
 		<!-- Top menu bar with application settings and information -->
 		<div class="menu-bar">
 			<div class="menu-bar-label">ROOT NOTE:</div>
-			<div class="menu-button btn-fixed" ng-click="toggleRootNoteDropdown()" ng-class="{'open' : showRootNoteDropdown}">{{notes[settings.currentStartNote]}}</div>
+			<div class="menu-button btn-fixed" ng-click="toggleRootNoteDropdown()" ng-class="{'open' : showRootNoteDropdown}">{{notes[settings.currentRootNote]}}</div>
 			<div class="menu-bar-label">SCALE:</div>
 			<div class="menu-button btn-dynamic" ng-click="toggleScaleDropdown()" ng-class="{'open' : showScaleDropdown}">{{scales[settings.currentScale].name}}</div>
 	  	 	<div class="menu-bar-label">NOTATION:</div>
@@ -27,11 +27,11 @@
 	  	 </div>
 
 		<div class="content-area">
-			<!-- Selection box for Starting Note -->
-			<div class="selection-box dropdown-top dropdown-start-note" ng-show="showRootNoteDropdown">
+			<!-- Selection box for Root Note -->
+			<div class="selection-box dropdown-top dropdown-root-note" ng-show="showRootNoteDropdown">
 				<div class="close-button" ng-click="toggleKeyDropdown()">X</div>
 				<div class="selection-box-container">
-					<div class="selection-box-option" ng-repeat="note in notes" ng-click="changeStartNote($index)">{{note}}</div>
+					<div class="selection-box-option" ng-repeat="note in notes" ng-click="changeRootNote($index)">{{note}}</div>
 				</div>
 			</div>
 
