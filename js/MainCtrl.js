@@ -34,7 +34,7 @@ app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, Gu
 	 * @desc Hides any dropdowns that are currently visible and sets the current string variable
 	 * @memberOf MainCtrl
 	 */
-	$scope.toggleTuner = function (selectedString) {
+	$scope.toggleTunerDropdown = function (selectedString) {
 		$scope.currentString = selectedString;
 
 		$scope.showTunerDropdown = !$scope.showTunerDropdown;

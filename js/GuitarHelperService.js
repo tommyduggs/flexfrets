@@ -10,7 +10,7 @@ app.service('GuitarHelperService', function() {
 	 * @desc Array of notes written with flat notation
 	 * @memberOf GuitarHelperService
 	 */
-	var FLAT_NOTES = ["Ab","A","Bb","B","C","Db","D","Eb","E","F","Gb","G"];
+	var FLAT_NOTES = ["A\u266d","A","B\u266d","B","C","D\u266d","D","E\u266d","E","F","G\u266d","G"];
 
 	/**
 	 * @constant
@@ -18,7 +18,7 @@ app.service('GuitarHelperService', function() {
 	 * @desc Array of notes written with sharp notation
 	 * @memberOf GuitarHelperService
 	 */
-	var SHARP_NOTES = ["G#","A","A#","B","C","C#","D","D#","E","F","F#","G"];
+	var SHARP_NOTES = ["G\u266f","A","A\u266f","B","C","C\u266f","D","D\u266f","E","F","F\u266f","G"];
 
 	/**
 	 * @constant
@@ -42,7 +42,7 @@ app.service('GuitarHelperService', function() {
 	 * @desc Array of notes that includes both flats and sharps.
 	 * @memberOf GuitarHelperService
 	 */
-	var NOTES = ["G#/Ab","A","A#/Bb","B","C","C#/Db","D","D#/Eb","E","F","F#/Gb","G"];
+	var NOTES = ["G\u266f/A\u266d","A","A\u266f/B\u266d","B","C","C\u266f/D\u266d","D","D\u266f/E\u266d","E","F","F\u266f/G\u266d","G"];
 
 	/**
 	 * @constant
@@ -61,7 +61,7 @@ app.service('GuitarHelperService', function() {
 		],
 		currentScale: 0, // Major Scale
 		currentRootNote: 4, // C
-		flatNotation: false
+		flatNotation: true
 	};
 
 	/**
