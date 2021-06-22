@@ -50,6 +50,7 @@ app.service('GuitarHelperService', function() {
 	 * @desc Default application settings
 	 * @memberOf GuitarHelperService
 	 */
+
 	var DEFAULT_SETTINGS = {
 		currentTuning: [
 			8,	// E
@@ -228,6 +229,5 @@ app.service('GuitarHelperService', function() {
 	this.NOTES = NOTES;
 	this.SCALES = SCALES;
 	this.DEFAULT_SETTINGS = DEFAULT_SETTINGS;
-
 	this.getFretboard = getFretboard;
 });
