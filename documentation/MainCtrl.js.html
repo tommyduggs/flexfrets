@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>MainCtrl.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="GuitarHelperService.html">GuitarHelperService</a><ul class='methods'><li data-type='method'><a href="GuitarHelperService.html#.buildString">buildString</a></li><li data-type='method'><a href="GuitarHelperService.html#.getFretboard">getFretboard</a></li><li data-type='method'><a href="GuitarHelperService.html#.getNotesInScale">getNotesInScale</a></li></ul></li><li><a href="MainCtrl.html">MainCtrl</a><ul class='methods'><li data-type='method'><a href="MainCtrl.html#.changeNotation">changeNotation</a></li><li data-type='method'><a href="MainCtrl.html#.changeRootNote">changeRootNote</a></li><li data-type='method'><a href="MainCtrl.html#.changeScale">changeScale</a></li><li data-type='method'><a href="MainCtrl.html#.changeTuning">changeTuning</a></li><li data-type='method'><a href="MainCtrl.html#.hideAllDropdowns">hideAllDropdowns</a></li><li data-type='method'><a href="MainCtrl.html#.shiftTuning">shiftTuning</a></li><li data-type='method'><a href="MainCtrl.html#.toggleRootNoteDropdown">toggleRootNoteDropdown</a></li><li data-type='method'><a href="MainCtrl.html#.toggleScaleDropdown">toggleScaleDropdown</a></li><li data-type='method'><a href="MainCtrl.html#.toggleTuner">toggleTuner</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">MainCtrl.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace MainCtrl
+ * @desc Main Controller
+ */
+app.controller("MainCtrl", ["$scope", "GuitarHelperService", function($scope, GuitarHelperService) {
+
+	$scope.showTunerDropdown = false;
+	$scope.showRootNoteDropdown = false;
+	$scope.showScaleDropdown = false;
+	$scope.showOverlay = false;
+	
+	$scope.notes = GuitarHelperService.NOTES;
+	$scope.scales = GuitarHelperService.SCALES;
+	$scope.settings = GuitarHelperService.DEFAULT_SETTINGS;
+
+	/* Initialize fretboard */
+	$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+
+	/**
+	 * @name hideAllDropdowns
+	 * @function
+	 * @desc Hides any dropdowns that are currently visible
+	 * @memberOf MainCtrl
+	 */
+	$scope.hideAllDropdowns = function () {
+		$scope.showTunerDropdown = false;
+		$scope.showRootNoteDropdown = false;
+		$scope.showScaleDropdown = false;
+	}
+
+	/**
+	 * @name toggleTuner
+	 * @function
+	 * @desc Hides any dropdowns that are currently visible and sets the current string variable
+	 * @memberOf MainCtrl
+	 */
+	$scope.toggleTunerDropdown = function (selectedString) {
+		$scope.currentString = selectedString;
+
+		$scope.showTunerDropdown = !$scope.showTunerDropdown;
+		$scope.showRootNoteDropdown = false;
+		$scope.showScaleDropdown = false;
+	}
+
+	/**
+	 * @name toggleRootNoteDropdown
+	 * @function
+	 * @desc Shows root note selection dropdown, hides any other dropdowns
+	 * @memberOf MainCtrl
+	 */
+	$scope.toggleRootNoteDropdown = function () {
+		$scope.showTunerDropdown = false;
+		$scope.showRootNoteDropdown = !$scope.showRootNoteDropdown;
+		$scope.showScaleDropdown = false;
+	}
+
+	/**
+	 * @name toggleScaleDropdown
+	 * @function
+	 * @desc Shows root note selection dropdown, hides any other dropdowns
+	 * @memberOf MainCtrl
+	 */
+	$scope.toggleScaleDropdown = function () {
+		$scope.showTunerDropdown = false;
+		$scope.showRootNoteDropdown = false;
+		$scope.showScaleDropdown = !$scope.showScaleDropdown;
+	}
+
+	/**
+	 * @name changeRootNote
+	 * @function
+	 * @desc Changes root note of current scale
+	 * @param {number} newRootNote Index of new root note
+	 * @memberOf MainCtrl
+	 * @uses GuitarHelperService.getFretboard
+	 */
+	$scope.changeRootNote = function (newRootNote) {
+		$scope.settings.currentRootNote = newRootNote;
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+		$scope.showRootNoteDropdown = false;
+	}
+
+	/**
+	 * @name changeScale
+	 * @function
+	 * @desc Changes the current scale
+	 * @param {number} newScale Index of new scale
+	 * @memberOf MainCtrl
+	 */
+	$scope.changeScale = function (newScale) {
+		$scope.settings.currentScale = newScale;
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+		$scope.showScaleDropdown = false;
+	}
+
+	/**
+	 * @name changeTuning
+	 * @function
+	 * @desc Changes the starting note of the current active string
+	 * @param {number} newNote Index of new note
+	 * @memberOf MainCtrl
+	 */
+	$scope.changeTuning = function (newNote) {
+		$scope.settings.currentTuning[$scope.currentString] = newNote;
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+		$scope.showTunerDropdown = false;
+	}
+
+	/**
+	 * @name changeNotation
+	 * @function
+	 * @desc Change to either flat or sharp notation
+	 * @param {boolean} flatNotation True if flat, false if sharp
+	 * @memberOf MainCtrl
+	 */
+	$scope.changeNotation = function (flatNotation) {
+		$scope.settings.flatNotation = flatNotation;
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+	}
+
+	/**
+	 * @name shiftTuning
+	 * @function
+	 * @desc Uniformly changes the tuning for all strings
+	 * @param {number} offset Amount to offset the start note by for each string
+	 * @memberOf MainCtrl
+	 */
+	$scope.shiftTuning = function (offset) {
+		$scope.settings.currentTuning = $scope.settings.currentTuning.map(function(note) {
+			return mod((note + offset), 12);
+		});
+		$scope.fretboard = GuitarHelperService.getFretboard($scope.settings);
+	}
+
+	/* modular arithmetic function from https://maurobringolf.ch/2017/12/a-neat-trick-to-compute-modulo-of-negative-numbers/ */
+	const mod = (x, n) => (x % n + n) % n
+}]);</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Mar 19 2019 20:28:18 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
+</body>
+</html>

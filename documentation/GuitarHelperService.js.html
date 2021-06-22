@@ -1,4 +1,47 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>GuitarHelperService.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="GuitarHelperService.html">GuitarHelperService</a><ul class='methods'><li data-type='method'><a href="GuitarHelperService.html#.buildString">buildString</a></li><li data-type='method'><a href="GuitarHelperService.html#.getFretboard">getFretboard</a></li><li data-type='method'><a href="GuitarHelperService.html#.getNotesInScale">getNotesInScale</a></li></ul></li><li><a href="MainCtrl.html">MainCtrl</a><ul class='methods'><li data-type='method'><a href="MainCtrl.html#.changeNotation">changeNotation</a></li><li data-type='method'><a href="MainCtrl.html#.changeRootNote">changeRootNote</a></li><li data-type='method'><a href="MainCtrl.html#.changeScale">changeScale</a></li><li data-type='method'><a href="MainCtrl.html#.changeTuning">changeTuning</a></li><li data-type='method'><a href="MainCtrl.html#.hideAllDropdowns">hideAllDropdowns</a></li><li data-type='method'><a href="MainCtrl.html#.shiftTuning">shiftTuning</a></li><li data-type='method'><a href="MainCtrl.html#.toggleRootNoteDropdown">toggleRootNoteDropdown</a></li><li data-type='method'><a href="MainCtrl.html#.toggleScaleDropdown">toggleScaleDropdown</a></li><li data-type='method'><a href="MainCtrl.html#.toggleTuner">toggleTuner</a></li></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">GuitarHelperService.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @namespace GuitarHelperService
  * @desc Service that contains music theory logic and constants
  */
@@ -49,8 +92,7 @@ app.service('GuitarHelperService', function() {
 	 * @type {Settings}
 	 * @desc Default application settings
 	 * @memberOf GuitarHelperService
-	 */
-
+	 */ 
 	var DEFAULT_SETTINGS = {
 		currentTuning: [
 			8,	// E
@@ -102,19 +144,19 @@ app.service('GuitarHelperService', function() {
 	 * @property {boolean} isInScale Is the note in the scale
 	 * @property {boolean} isRoot Is the note the root note
 	 */
-
+	
 	/**
 	 * @typedef String
 	 * @type {Fret[]}
 	 * @desc Array of fret objects that compose a string
 	 */
-
+	
 	/**
 	 * @typedef Fretboard
 	 * @type {String[]}
 	 * @desc Array of string objects that make up the fretboard
 	 */
-
+	
 	/**
 	 * @typedef Settings
 	 * @type {object}
@@ -123,7 +165,7 @@ app.service('GuitarHelperService', function() {
 	 * that represent the starting note of each string
 	 * @property {number} currentScale SCALE Index of the current scale
 	 * @property {number} currentRootNote NOTE Index of the current root note
-	 * @property {flatNotation} boolean Is the current notation flat
+	 * @property {flatNotation} boolean Is the current notation flat 
 	 */
 
 	/**
@@ -143,7 +185,7 @@ app.service('GuitarHelperService', function() {
 		var notesInScale = [];
 
 		// Loop through the scale array (starting on the root) and add to return array
-		for (var i = 0; i < scale.length; i++) {
+		for (var i = 0; i &lt; scale.length; i++) {
 			notesInScale.push((rootNote + scale[i]) % 12);
 		}
 
@@ -172,7 +214,7 @@ app.service('GuitarHelperService', function() {
 		var currentNote = openNote;
 
 		// Iterate through the frets, starting on the first one
-		for (j=0;j<NUM_FRETS;j++) {
+		for (j=0;j&lt;NUM_FRETS;j++) {
 			currentNote = (currentNote + 1) % 12;
 			var isInScale = false;
 			var isRoot = false;
@@ -189,11 +231,11 @@ app.service('GuitarHelperService', function() {
 			}
 
 			var note = flatNotation ? FLAT_NOTES[currentNote] : SHARP_NOTES[currentNote];
-			var fret = {note: note, isInScale: isInScale, isRoot: isRoot, notePosition: (notesInScale.indexOf(currentNote) + 1)};
+			var fret = {note: note, isInScale: isInScale, isRoot: isRoot};
 			frets.push(fret);
 		}
 
-		var string = {
+		var string = { 
 			openNoteIsInScale: openNoteIsInScale,
 			openNoteIsRoot: openNoteIsRoot,
 			frets: frets
@@ -217,7 +259,7 @@ app.service('GuitarHelperService', function() {
 
 		var strings = [];
 
-		for (i=0;i<NUM_STRINGS;i++) {
+		for (i=0;i&lt;NUM_STRINGS;i++) {
 			strings.push(buildString(currentTuning[i],notesInScale,flatNotation));
 		}
 
@@ -229,5 +271,28 @@ app.service('GuitarHelperService', function() {
 	this.NOTES = NOTES;
 	this.SCALES = SCALES;
 	this.DEFAULT_SETTINGS = DEFAULT_SETTINGS;
+	
 	this.getFretboard = getFretboard;
-});
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Mar 19 2019 20:28:18 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
+</body>
+</html>
