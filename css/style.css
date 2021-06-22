@@ -15,14 +15,14 @@ body {
 
 .logo {
 	background-image: url(../images/logo.png);
-    background-origin: content-box;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 
-    height: 1.5rem;
-    width: 10rem;
-    padding: 5px;
-    float: right;
+  height: 1.5rem;
+  width: 10rem;
+  padding: 5px;
+  float: right;
 }
 
 .hidden {
@@ -67,18 +67,17 @@ body {
 
 .dropdown {
 	display: flex !important;
-    flex-direction: column;
-
-    min-width: 100%;
-    background-color: #202020;
+  flex-direction: column;
+  min-width: 100%;
+  background-color: #202020;
 	z-index: 1;
 
 	top: 0;
-    left: 0;
-    position: fixed;
-    height: 100%;
-    overflow-y: scroll;
-    font-size: 2em;
+  left: 0;
+  position: fixed;
+  height: 100%;
+  overflow-y: scroll;
+  font-size: 2em;
 }
 
 .dropdown-option {
@@ -88,14 +87,14 @@ body {
 
 .close-button {
 	position: absolute;
-    right: 0;
-    padding-right: 15px;
+  right: 0;
+  padding-right: 15px;
 }
 
 .fretboard-container {
 	flex: 1;
 	background-image: url(../images/fretboard_bg.png);
-    background-size: 100% 100%;
+  background-size: 100% 100%;
 	display: flex;
 	flex-flow: column nowrap;
 	font-size: 1.2rem;
@@ -117,14 +116,14 @@ body {
 }
 
 .btn {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 5px;
-    background-color: #c456ad;
-    border: 1px solid #983584;
-    border-radius: 10rem;
-    min-width: 2rem;
-    text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 5px;
+  background-color: #c456ad;
+  border: 1px solid #983584;
+  border-radius: 10rem;
+  min-width: 2rem;
+  text-align: center;
 }
 
 .toggle-container > .btn {
@@ -141,40 +140,40 @@ body {
 
 .toggle-unselected {
 	color: #8f8f8f;
-    background: none;
-    border: none;
-    margin: 6px;
+  background: none;
+  border: none;
+  margin: 6px;
 }
 
 .open-note-container {
-    width: 9.1%;
-    margin-right: 1.7%;
-    position: relative;
+  width: 9.1%;
+  margin-right: 1.7%;
+  position: relative;
 }
 
 .open-note {
 	display: flex;
-    position: absolute;
-    height: auto;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    max-width: 4.5rem;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    align-items: center;
-    background-color: #818181;
-    border: 1px solid #5b5b5b;
-    border-radius: 10rem;
+  position: absolute;
+  height: auto;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-width: 4.5rem;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  align-items: center;
+  background-color: #818181;
+  border: 1px solid #5b5b5b;
+  border-radius: 10rem;
 }
 
 .open-in-key {
-    background-color: #c456ad;
-    border: 1px solid #983584;
+  background-color: #c456ad;
+  border: 1px solid #983584;
 }
 
 .open-root {
@@ -237,30 +236,30 @@ body {
 .note {
 	visibility: hidden;
 	position: absolute;
-    height: auto;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    font-size: 1.1rem;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    background-image: -webkit-linear-gradient(left,
-    	rgba(196,86,173,0) 0%,
-    	rgba(196,86,173,0.5) 15%,
-    	rgba(196,86,173,1) 30%,
-    	rgba(196,86,173,1) 70%,
-    	rgba(196,86,173,0.5) 85%,
-    	rgba(196,86,173,0) 100%);
+  height: auto;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 1.1rem;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  background-image: -webkit-linear-gradient(left,
+  	rgba(196,86,173,0) 0%,
+  	rgba(196,86,173,0.5) 15%,
+  	rgba(196,86,173,1) 30%,
+  	rgba(196,86,173,1) 70%,
+  	rgba(196,86,173,0.5) 85%,
+  	rgba(196,86,173,0) 100%);
 }
 
 .highlighted > .note {
@@ -289,28 +288,28 @@ body {
 
 	.header-container {
 		flex: 1;
-    	display: flex;
-    	flex-direction: column;
-    	align-items: center;
-    	width: 100%;
-    	max-height: 103px;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
+  	width: 100%;
+  	max-height: 103px;
 	}
 
 	.separator {
-	    width: 100%;
-	    max-width: 1009px;
-	    height: 3px;
-	    background-image: url(../images/separator.png);
-	    background-size: 100% 100%;
+    width: 100%;
+    max-width: 1009px;
+    height: 3px;
+    background-image: url(../images/separator.png);
+    background-size: 100% 100%;
 	}
 
 	.logo {
 		float: none;
-	    margin: auto;
-	    width: 29vw;
-	    height: 4vw;
-	    max-width: 328px;
-	    max-height: 49px;
+    margin: auto;
+    width: 29vw;
+    height: 4vw;
+    max-width: 328px;
+    max-height: 49px;
 	}
 
 	.fretboard-container {
@@ -327,25 +326,25 @@ body {
 		order: 0;
 		flex: 1;
 		width: 100vw;
-    	max-height: 161px;
-    	max-width: 1086px;
+  	max-height: 161px;
+  	max-width: 1086px;
 	}
 
 	.fret-indicators-container {
 		display: inherit;
-	    width: 100vw;
-	    height: 11vw;
-	    max-width: 1086px;
-	    max-height: 119px;
-	    padding-top: 20px;
+    width: 100vw;
+    height: 11vw;
+    max-width: 1086px;
+    max-height: 119px;
+    padding-top: 20px;
 	}
 
 	.fret-indicators {
 		background-image: url(../images/fret_indicators.png);
-    	background-size: 100% 100%;
-    	width: 100%;
-    	height: 100%;
-	}	
+  	background-size: 100% 100%;
+  	width: 100%;
+  	height: 100%;
+	}
 
 	.btn:hover {
 		background-color: #a0388a;
@@ -378,6 +377,10 @@ body {
 }
 
 @media only screen and (min-width: 1086px) {
+  body {
+    min-height: 847px;
+  }
+
 	.close-button {
 		display: none;
 	}
@@ -396,9 +399,9 @@ body {
 
 	.down-arrow {
 		font-size: 10px;
-	    float: right;
-	    line-height: 2rem;
-	    vertical-align: middle;
+    float: right;
+    line-height: 2rem;
+    vertical-align: middle;
 	}
 
 	.ddl-scale > .down-arrow {
@@ -415,12 +418,12 @@ body {
 
 	.content-container {
 		background-image: url(../images/content_bg.png);
-	    background-size: 1529px 615px;
-	    background-position-x: center;
-	    background-position-y: 103px;
-	    background-repeat: no-repeat;
-	    width: 100%;
-	    height: 100%;
+    background-size: 1529px 615px;
+    background-position-x: center;
+    background-position-y: 103px;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
 	}
 
 	.menu-container {
@@ -446,16 +449,17 @@ body {
 
 	.dropdown-overlay {
 		width: 100%;
-	    height: 100%;
-	    position: absolute;
-	    background-color: rgb(0,0,0,0.75);
-	    z-index: 1;
+    height: 100%;
+    min-height: 847px;
+    position: absolute;
+    background-color: rgb(0,0,0,0.75);
+    z-index: 1;
 	}
 
 	.dropdown-tuner {
 		margin-left: 115px;
-    	min-width: 175px;
-    	left: initial;
+  	min-width: 175px;
+  	left: initial;
 	}
 
 	.dropdown-scale .dropdown-option {
@@ -469,13 +473,13 @@ body {
 	.orientation-overlay {
 		visibility: visible;
 		background-color: #111111;
-	    width: 100%;
-	    height: 100%;
-	    z-index: 1;
-	    display: flex;
-	    align-items: center;
-	    justify-content: center;
-	    text-align: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 	}
 
 	.content-container {
