@@ -1,6 +1,2 @@
-mockup.psd
-documentation.txt
-documentation/*
-node_modules/*
+node_modules
 GenerateDocumentation.bat
-*.psd
