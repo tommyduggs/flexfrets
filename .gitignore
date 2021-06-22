@@ -1,2 +1,3 @@
 node_modules
 GenerateDocumentation.bat
+npm-debug.log

@@ -1,0 +1,25 @@
+{
+  "name": "flexfrets",
+  "version": "1.0.0",
+  "description": "Web application that provides visualization of keys and scales for guitar",
+  "main": "index.js",
+  "dependencies": {
+    "docdash": "1.0.3",
+    "jsdoc": "~3.5.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "postinstall": "npm run docs",
+    "docs": "./node_modules/.bin/jsdoc -c ./jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tommyduggs/FlexFrets.git"
+  },
+  "author": "Tom Duggan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tommyduggs/FlexFrets/issues"
+  },
+  "homepage": "https://github.com/tommyduggs/FlexFrets#readme"
+}
