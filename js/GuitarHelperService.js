@@ -49,7 +49,7 @@ app.service('GuitarHelperService', function() {
 	 * @type {Settings}
 	 * @desc Default application settings
 	 * @memberOf GuitarHelperService
-	 */ 
+	 */
 	var DEFAULT_SETTINGS = {
 		currentTuning: [
 			8,	// E
@@ -101,19 +101,19 @@ app.service('GuitarHelperService', function() {
 	 * @property {boolean} isInScale Is the note in the scale
 	 * @property {boolean} isRoot Is the note the root note
 	 */
-	
+
 	/**
 	 * @typedef String
 	 * @type {Fret[]}
 	 * @desc Array of fret objects that compose a string
 	 */
-	
+
 	/**
 	 * @typedef Fretboard
 	 * @type {String[]}
 	 * @desc Array of string objects that make up the fretboard
 	 */
-	
+
 	/**
 	 * @typedef Settings
 	 * @type {object}
@@ -122,7 +122,7 @@ app.service('GuitarHelperService', function() {
 	 * that represent the starting note of each string
 	 * @property {number} currentScale SCALE Index of the current scale
 	 * @property {number} currentRootNote NOTE Index of the current root note
-	 * @property {flatNotation} boolean Is the current notation flat 
+	 * @property {flatNotation} boolean Is the current notation flat
 	 */
 
 	/**
@@ -188,11 +188,11 @@ app.service('GuitarHelperService', function() {
 			}
 
 			var note = flatNotation ? FLAT_NOTES[currentNote] : SHARP_NOTES[currentNote];
-			var fret = {note: note, isInScale: isInScale, isRoot: isRoot};
+			var fret = {note: note, isInScale: isInScale, isRoot: isRoot, notePosition: (notesInScale.indexOf(currentNote) + 1)};
 			frets.push(fret);
 		}
 
-		var string = { 
+		var string = {
 			openNoteIsInScale: openNoteIsInScale,
 			openNoteIsRoot: openNoteIsRoot,
 			frets: frets
@@ -228,6 +228,6 @@ app.service('GuitarHelperService', function() {
 	this.NOTES = NOTES;
 	this.SCALES = SCALES;
 	this.DEFAULT_SETTINGS = DEFAULT_SETTINGS;
-	
+
 	this.getFretboard = getFretboard;
 });
