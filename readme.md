@@ -8,10 +8,10 @@ FlexFrets is a single-page AngularJS Web application that provides a visual repr
 The application was created with a mobile-first design. It is fully responsive and will work on any size device.
 
 **Mobile**
-<img src="readme_assets/screenshot_mobile.png"/>
+<img src="readme_assets/mobilepreview.png"/>
 
 **Desktop**
-<img src="readme_assets/screenshot_web.png"/>
+<img src="readme_assets/desktoppreview.png"/>
 
 [Click here to see the project in action](https://tommyduggs.github.io/flexfrets)
 
