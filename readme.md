@@ -21,8 +21,6 @@ To fully understand the purpose of this app, some knowledge of music theory is r
 
 The notes on the far left of the fretboard represent the notes the guitar strings are tuned to. You can change the tuning by clicking the note and selecting a new note from the list. You can then choose a scale to view by selecting a root note then a scale name from the dropdowns.
 
-## Running Locally
-
 ## Documentation
 
 The JavaScript files in this project are annotated using JSDoc notation. This allows us to automatically generate documentation that describes the functionality of the scripts. JSDoc was mainly added to this project to serve as a proof of concept. Though perhaps unnecessary for a project of this size, the ability to automatically generate detailed documentation would be very helpful when building something such as a large-scale API.
@@ -31,6 +29,10 @@ The JavaScript files in this project are annotated using JSDoc notation. This al
 You can generate this documentation locally by running `npm install` in the project directory. Once the packages have been installed you can regenerate the documentation by running `npm run docs`
 
 *Note: JSDoc is currently not working with node version 14*
+
+## Running Locally
+
+All of the files required to run the web application are included with the project. You can view the application locally by opening the index.html file.
 
 ## License
 
