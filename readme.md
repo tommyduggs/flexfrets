@@ -23,7 +23,7 @@ The notes on the far left of the fretboard represent the notes the guitar string
 
 ## Documentation
 
-The JavaScript files in this project are annotated using JSDoc notation. This allows us to automatically generate documentation that describes the functionality of the scripts. JSDoc was mainly added to this project to serve as a proof of concept. Though perhaps unnecessary for a project of this size, the ability to automatically generate detailed documentation would be very helpful when building something such as a large-scale API.
+The JavaScript files in this project are annotated using JSDoc notation. This allows us to automatically generate documentation that describes the functionality of the scripts. JSDoc was mainly added to this project to serve as a proof of concept. As projects scale, having the ability to automatically generate detailed documentation becomes increasingly helpful. 
 [Click here to view the documentation generated](https://tommyduggs.github.io/flexfrets/documentation/).
 
 You can generate this documentation locally by running `npm install` in the project directory. Once the packages have been installed you can regenerate the documentation by running `npm run docs`
